@@ -1,0 +1,32 @@
+.RemoveArticle {
+  &__Title {
+    text-align: center;
+  }
+  &__Articles {
+    display: flex;
+    flex-wrap: wrap;
+    &__Article {
+      min-width: 15rem;
+      width: 30%;
+      margin: 1rem;
+      &__Card {
+        &__Content {
+          &__Title {
+            text-align: center;
+            margin-bottom: 0 !important;
+          }
+        }
+        &__Image {
+          height: 10rem;
+          width: 100%;
+        }
+        &__Action {
+          width: 100%;
+          &__Button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

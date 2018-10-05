@@ -1,0 +1,65 @@
+.Player {
+  width: 70%;
+  height: 20rem;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  &__Button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    &__Play {
+      width: 3rem;
+      margin: 0 0.6rem;
+      box-shadow: none;
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    &__Gauge {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      &__Volume {
+        display: flex;
+        width: 20%;
+        button {
+          width: 1.2rem;
+          box-shadow: none;
+          text-decoration: none;
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+        }
+
+        div {
+          width: 80%;
+          display: flex;
+          align-items: center;
+          input {
+            cursor: pointer;
+          }
+        }
+      }
+      &__Progress {
+        width: 80%;
+        height: 0.4rem;
+        margin-right: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        .sb-soundplayer-progress-inner {
+          background-color: white;
+          height: 0.4rem;
+          border-radius: 1rem;
+        }
+      }
+    }
+  }
+}

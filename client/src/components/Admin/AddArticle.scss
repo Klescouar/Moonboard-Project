@@ -1,0 +1,16 @@
+.AddArticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__Title {
+    text-align: center;
+    margin-bottom: 0;
+  }
+  &__Form {
+    min-width: 32rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

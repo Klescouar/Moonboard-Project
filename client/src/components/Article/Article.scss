@@ -1,0 +1,10 @@
+.Article {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &__Title {
+    text-align: center;
+  }
+}

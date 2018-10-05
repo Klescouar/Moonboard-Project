@@ -1,0 +1,16 @@
+.Home {
+  font-family: 'typewriter';
+
+  &__Navbar {
+    &__Title {
+      text-align: center;
+      text-decoration: underline;
+    }
+  }
+
+  &__Body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
