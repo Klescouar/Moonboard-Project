@@ -1,5 +1,18 @@
 .UploadImage {
-  height: 15rem;
-  width: 15rem;
-  background-color: rgba(0, 0, 0, 0.34);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed black;
+  padding: 2rem 3rem;
+  margin: 2rem 0 1rem;
+  &__Title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  &__Upload {
+    svg {
+      margin-left: 1rem;
+    }
+  }
 }

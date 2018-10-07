@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withSoundCloudAudio } from 'react-soundplayer/addons';
-import Islande from '../../assets/images/Islande.jpg';
 import {
   PlayButton,
   Progress,
   VolumeControl
 } from 'react-soundplayer/components';
 
-const nasaBg = Islande;
-
 class BackgroundSoundPlayer extends Component {
   render() {
-    const { duration, currentTime } = this.props;
+    const { duration, currentTime, backgroundImage } = this.props;
 
     return (
-      <div className="Player" style={{ backgroundImage: `url(${nasaBg})` }}>
+      <div
+        className="Player"
+        style={{
+          backgroundImage: `url(${require(`../../assets/images/${backgroundImage}`)})`
+        }}
+      >
         <div className="Player__Button">
           <PlayButton className="Player__Button__Play" {...this.props} />
           <div className="Player__Button__Gauge">

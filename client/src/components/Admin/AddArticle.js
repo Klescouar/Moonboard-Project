@@ -4,14 +4,27 @@ import { withRouter } from 'react-router-dom';
 import { ADD_ARTICLE } from '../../queries';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import Card from '@material-ui/core/Card';
+import SnackBarSuccess from '../SnackBar/SnackBarSuccess';
+import SnackBarError from '../SnackBar/SnackBarError';
 import UploadImage from './UlploadImage';
+
+const ERROR_TEXT = 'Sorry, creating your article did not work...';
+const SUCCESS_TEXT = 'Great, your article is now created!';
+
+const initialState = {
+  title: '',
+  image: '',
+  link: '',
+  openErrorSnackBar: false,
+  openSuccessSnackBar: false
+};
 
 class AddArticle extends Component {
   constructor(props) {
     super(props);
     // Don't call this.setState() here!
-    this.state = { title: '', image: 'azdza', link: '' };
+    this.state = { ...initialState };
   }
 
   handleChange = name => event => {
@@ -28,7 +41,34 @@ class AddArticle extends Component {
 
   handleSubmit = (event, addArticle) => {
     event.preventDefault();
-    addArticle();
+    addArticle()
+      .then(() => {
+        this.setState({ ...initialState });
+        this.setState({
+          openSuccessSnackBar: true
+        });
+        setTimeout(() => {
+          this.setState({
+            openSuccessSnackBar: false
+          });
+        }, 3000);
+      })
+      .catch(() => {
+        this.setState({
+          openErrorSnackBar: true
+        });
+        setTimeout(() => {
+          this.setState({
+            openErrorSnackBar: false
+          });
+        }, 3000);
+      });
+  };
+
+  validateForm = () => {
+    const { title, image, link } = this.state;
+    const isInvalid = !title || !link || !image;
+    return isInvalid;
   };
 
   render() {
@@ -45,17 +85,26 @@ class AddArticle extends Component {
       >
         {(addArticle, { data, loading, error }) => {
           return (
-            <div className="AddArticle">
-              <h1 className="AddArticle__Title">Add an article</h1>
+            <Card className="AddArticle">
+              <SnackBarSuccess
+                text={SUCCESS_TEXT}
+                open={this.state.openSuccessSnackBar}
+              />
+              <SnackBarError
+                text={ERROR_TEXT}
+                open={this.state.openErrorSnackBar}
+              />
               <form
                 className="AddArticle__Form"
                 onSubmit={event => this.handleSubmit(event, addArticle)}
               >
+                <p className="AddArticle__Form__Title">ADD AN ARTICLE</p>
                 <TextField
+                  required
                   id="standard-name"
                   name="title"
-                  label="Title de l'article"
-                  className="AddArticle__Form__Title__Input"
+                  label="Article's title"
+                  className="AddArticle__Form__Input"
                   value={title}
                   onChange={this.handleChange('title')}
                   margin="normal"
@@ -66,9 +115,10 @@ class AddArticle extends Component {
                   getFileName={this.getFileName}
                 />
                 <TextField
+                  required
                   id="standard-name"
                   name="link"
-                  label="Lien Soundcloud"
+                  label="Soundcloud link"
                   className="AddArticle__Form__Input"
                   value={link}
                   onChange={this.handleChange('link')}
@@ -78,12 +128,13 @@ class AddArticle extends Component {
                   type="submit"
                   onClick={this.submit}
                   variant="outlined"
+                  disabled={this.validateForm()}
                   className="AddArticle__Form__Submit"
                 >
-                  Envoyer
+                  Send new article
                 </Button>
               </form>
-            </div>
+            </Card>
           );
         }}
       </Mutation>

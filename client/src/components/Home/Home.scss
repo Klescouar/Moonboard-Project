@@ -2,9 +2,13 @@
   font-family: 'typewriter';
 
   &__Navbar {
+    position: fixed;
+    width: 100%;
+    background-color: white;
     &__Title {
       text-align: center;
       text-decoration: underline;
+      font-weight: normal;
     }
   }
 
@@ -12,5 +16,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 5rem 1rem 0;
+  }
+}
+
+.Logout {
+  position: absolute !important;
+  z-index: 9999;
+  top: 0.5rem;
+  right: 0.5rem;
+  @media screen and (max-width: 600px) {
+    height: 2rem !important;
+    top: 0.6rem;
+  }
+  &__Icon {
+    margin-right: 0.7rem;
   }
 }

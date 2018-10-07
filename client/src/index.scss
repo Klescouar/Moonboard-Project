@@ -2,3 +2,14 @@
   font-family: 'typewriter';
   src: url('./assets/font/Typo.ttf');
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.Spinner {
+  position: absolute;
+  top: calc(50vh - 2.5rem);
+  left: calc(50% - 2.5rem);
+}

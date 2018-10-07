@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import windowSize from 'react-window-size';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,6 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './ListItems';
 import AddArticle from './AddArticle';
 import RemoveArticle from './RemoveArticle';
+import withAuth from '../withAuth';
 
 const drawerWidth = 240;
 
@@ -82,7 +84,6 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
-    height: '100vh',
     overflow: 'auto'
   },
   chartContainer: {
@@ -95,7 +96,7 @@ const styles = theme => ({
 
 class Dashboard extends React.Component {
   state = {
-    open: true
+    open: this.props.windowWidth < 600 ? false : true
   };
 
   handleDrawerOpen = () => {
@@ -131,19 +132,22 @@ class Dashboard extends React.Component {
                   onClick={this.handleDrawerOpen}
                   className={classNames(
                     classes.menuButton,
-                    this.state.open && classes.menuButtonHidden
+                    this.state.open && classes.menuButtonHidden,
+                    'Admin__NavBar'
                   )}
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography
-                  variant="title"
-                  color="inherit"
-                  noWrap
-                  className={classes.title}
-                >
-                  MoonBoard Back Office
-                </Typography>
+                {this.props.windowWidth > 600 && (
+                  <Typography
+                    variant="title"
+                    color="inherit"
+                    noWrap
+                    className={classes.title}
+                  >
+                    MoonBoard Back Office
+                  </Typography>
+                )}
               </Toolbar>
             </AppBar>
             <Drawer
@@ -166,8 +170,14 @@ class Dashboard extends React.Component {
             </Drawer>
             <main className={`Admin__Content ${classes.content}`}>
               <Fragment>
-                <Route path="/admin/addArticle" component={AddArticle} />
-                <Route path="/admin/removeArticle" component={RemoveArticle} />
+                <Route
+                  path="/admin/backoffice/addArticle"
+                  component={AddArticle}
+                />
+                <Route
+                  path="/admin/backoffice/removeArticle"
+                  component={RemoveArticle}
+                />
               </Fragment>
             </main>
           </div>
@@ -181,4 +191,6 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+export default withAuth(session => session && session.getCurrentUser)(
+  withStyles(styles)(windowSize(Dashboard))
+);

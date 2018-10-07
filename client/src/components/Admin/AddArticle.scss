@@ -1,16 +1,27 @@
 .AddArticle {
+  min-width: 15rem;
+  max-width: 30rem;
+  width: 100%;
+  height: 30rem;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  &__Title {
-    text-align: center;
-    margin-bottom: 0;
-  }
   &__Form {
-    min-width: 32rem;
-    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    &__Title {
+      font-size: 1.3rem;
+      margin-top: 0;
+    }
+    &__Input {
+      margin: 0 !important;
+      width: 50%;
+      min-width: 13rem !important;
+    }
+
+    &__Submit {
+      margin-top: 2rem !important;
+    }
   }
 }
