@@ -15,6 +15,11 @@ const initialState = {
 class Signin extends React.Component {
   state = { ...initialState };
 
+  componentDidMount = () => {
+    if (this.props.session && this.props.session.getCurrentUser)
+      this.props.history.push('/admin/backoffice');
+  };
+
   clearState = () => {
     this.setState({ ...initialState });
   };
@@ -58,7 +63,6 @@ class Signin extends React.Component {
                     name="username"
                     id="outlined-required"
                     label="Username"
-                    defaultValue="Hello World"
                     margin="normal"
                     variant="outlined"
                     value={username}
@@ -68,7 +72,6 @@ class Signin extends React.Component {
                     required
                     id="outlined-required"
                     label="Password"
-                    defaultValue="Hello World"
                     margin="normal"
                     variant="outlined"
                     type="password"

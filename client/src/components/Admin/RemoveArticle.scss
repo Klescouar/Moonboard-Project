@@ -6,11 +6,10 @@
   }
   &__Articles {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
     &__Article {
-      min-width: 14rem;
-      width: 30%;
+      min-width: 13rem;
+      width: 29%;
       margin: 1rem;
       &__Card {
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;

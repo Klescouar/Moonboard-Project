@@ -12,6 +12,7 @@ const styles2 = theme => ({
 
 class CustomizedSnackbars extends React.Component {
   render() {
+    console.log(this.props.open);
     return (
       <div>
         <Snackbar

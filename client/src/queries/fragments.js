@@ -6,6 +6,18 @@ export const articleFragments = {
       title
       image
       link
+      date
+      time
+      chapter
+    }
+  `
+};
+
+export const chapterFragments = {
+  chapter: gql`
+    fragment CompleteChapter on Chapter {
+      _id
+      number
     }
   `
 };

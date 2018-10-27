@@ -8,7 +8,7 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 export const mainListItems = (
   <div className="ListItems">
-    <NavLink to="/admin/backoffice/addArticle" className="ListItems__Link">
+    <NavLink to="/admin/backoffice/handleArticle" className="ListItems__Link">
       <ListItem button>
         <ListItemIcon>
           <AddPhotoAlternateIcon />

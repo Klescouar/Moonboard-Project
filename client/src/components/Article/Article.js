@@ -8,7 +8,7 @@ class Article extends Component {
     return (
       <div className="Article">
         <div className="Article__Title">
-          <h2>{this.props.article.title}</h2>
+          <p>{this.props.article.title}</p>
         </div>
         <BackgroundSoundPlayer
           resolveUrl={resolveUrl}

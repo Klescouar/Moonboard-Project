@@ -21,6 +21,7 @@ import './components/Admin/Admin.scss';
 import './components/Admin/UploadImage.scss';
 import './components/Admin/AddArticle.scss';
 import './components/Admin/RemoveArticle.scss';
+import './components/Admin/HandleArticle.scss';
 import './components/Auth/Sign.scss';
 import './components/SnackBar/SnackBar.scss';
 import './index.scss';
@@ -44,6 +45,7 @@ const client = new ApolloClient({
 });
 
 const Root = ({ refetch, session }) => {
+  console.log(session);
   return (
     <Router>
       <Fragment>
@@ -52,7 +54,7 @@ const Root = ({ refetch, session }) => {
         <Route
           path="/admin"
           exact
-          render={() => <Signin refetch={refetch} />}
+          render={() => <Signin session={session} refetch={refetch} />}
         />
         <Route path="/signup" render={() => <Signup refetch={refetch} />} />
         <Route

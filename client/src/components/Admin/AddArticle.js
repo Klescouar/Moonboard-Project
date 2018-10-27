@@ -5,17 +5,22 @@ import { ADD_ARTICLE } from '../../queries';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import UploadImage from './UlploadImage';
 import SnackBarSuccess from '../SnackBar/SnackBarSuccess';
 import SnackBarError from '../SnackBar/SnackBarError';
-import UploadImage from './UlploadImage';
 
-const ERROR_TEXT = 'Sorry, creating your article did not work...';
-const SUCCESS_TEXT = 'Great, your article is now created!';
+const addArticleDialog = {
+  error: 'Sorry, creating your article did not work...',
+  success: 'Great, your article is now created!'
+};
 
 const initialState = {
   title: '',
   image: '',
+  time: '',
+  date: '',
   link: '',
+  chapter: null,
   openErrorSnackBar: false,
   openSuccessSnackBar: false
 };
@@ -23,15 +28,12 @@ const initialState = {
 class AddArticle extends Component {
   constructor(props) {
     super(props);
-    // Don't call this.setState() here!
-    this.state = { ...initialState };
+    this.state = { ...initialState, ...props.match.params };
   }
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
 
   getFileName = fileName => {
     this.setState({
@@ -42,9 +44,9 @@ class AddArticle extends Component {
   handleSubmit = (event, addArticle) => {
     event.preventDefault();
     addArticle()
-      .then(() => {
-        this.setState({ ...initialState });
+      .then(res => {
         this.setState({
+          ...initialState,
           openSuccessSnackBar: true
         });
         setTimeout(() => {
@@ -53,7 +55,7 @@ class AddArticle extends Component {
           });
         }, 3000);
       })
-      .catch(() => {
+      .catch(err => {
         this.setState({
           openErrorSnackBar: true
         });
@@ -72,27 +74,38 @@ class AddArticle extends Component {
   };
 
   render() {
-    const { title, image, link } = this.state;
-
+    const {
+      title,
+      image,
+      link,
+      chapter,
+      time,
+      date,
+      openSuccessSnackBar,
+      openErrorSnackBar
+    } = this.state;
     return (
       <Mutation
         mutation={ADD_ARTICLE}
         variables={{
           title,
           image,
-          link
+          link,
+          time,
+          date,
+          chapter: Number(chapter)
         }}
       >
         {(addArticle, { data, loading, error }) => {
           return (
             <Card className="AddArticle">
               <SnackBarSuccess
-                text={SUCCESS_TEXT}
-                open={this.state.openSuccessSnackBar}
+                text={addArticleDialog.success}
+                open={openSuccessSnackBar}
               />
               <SnackBarError
-                text={ERROR_TEXT}
-                open={this.state.openErrorSnackBar}
+                text={addArticleDialog.error}
+                open={openErrorSnackBar}
               />
               <form
                 className="AddArticle__Form"
@@ -103,11 +116,36 @@ class AddArticle extends Component {
                   required
                   id="standard-name"
                   name="title"
-                  label="Article's title"
-                  className="AddArticle__Form__Input"
                   value={title}
-                  onChange={this.handleChange('title')}
+                  label="Article's title"
+                  variant="outlined"
+                  className="AddArticle__Form__Input"
+                  onChange={event => this.handleChange(event)}
                   margin="normal"
+                />
+                <TextField
+                  id="time"
+                  label="Time"
+                  type="time"
+                  name="time"
+                  defaultValue="00:00"
+                  onChange={event => this.handleChange(event)}
+                  className="AddArticle__Form__Input"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+                <TextField
+                  id="date"
+                  label="Date"
+                  type="date"
+                  name="date"
+                  className="AddArticle__Form__Input"
+                  defaultValue={date}
+                  onChange={event => this.handleChange(event)}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
                 />
                 <UploadImage
                   name="image"
@@ -118,15 +156,15 @@ class AddArticle extends Component {
                   required
                   id="standard-name"
                   name="link"
+                  value={link}
+                  variant="outlined"
                   label="Soundcloud link"
                   className="AddArticle__Form__Input"
-                  value={link}
-                  onChange={this.handleChange('link')}
+                  onChange={event => this.handleChange(event)}
                   margin="normal"
                 />
                 <Button
                   type="submit"
-                  onClick={this.submit}
                   variant="outlined"
                   disabled={this.validateForm()}
                   className="AddArticle__Form__Submit"

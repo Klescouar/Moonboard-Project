@@ -1,6 +1,11 @@
 @font-face {
-  font-family: 'typewriter';
-  src: url('./assets/font/Typo.ttf');
+  font-family: 'Ubuntu';
+  src: url('./assets/font/UbuntuMono-Regular.ttf');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('./assets/font/UbuntuMono-Bold.ttf');
+  font-weight: bold;
 }
 
 body {

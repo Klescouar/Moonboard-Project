@@ -15,8 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './ListItems';
+import HandleArticle from './HandleArticle';
 import AddArticle from './AddArticle';
-import RemoveArticle from './RemoveArticle';
 import withAuth from '../withAuth';
 
 const drawerWidth = 240;
@@ -171,12 +171,13 @@ class Dashboard extends React.Component {
             <main className={`Admin__Content ${classes.content}`}>
               <Fragment>
                 <Route
-                  path="/admin/backoffice/addArticle"
-                  component={AddArticle}
+                  path="/admin/backoffice/"
+                  exact
+                  component={HandleArticle}
                 />
                 <Route
-                  path="/admin/backoffice/removeArticle"
-                  component={RemoveArticle}
+                  path="/admin/backoffice/addArticle/chapter/:chapter"
+                  component={AddArticle}
                 />
               </Fragment>
             </main>

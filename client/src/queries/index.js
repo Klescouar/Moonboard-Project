@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { articleFragments } from './fragments';
+import { articleFragments, chapterFragments } from './fragments';
 
 export const UploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -8,12 +8,35 @@ export const UploadImageMutation = gql`
 `;
 
 export const ADD_ARTICLE = gql`
-  mutation($title: String!, $image: String!, $link: String!) {
-    addArticle(title: $title, image: $image, link: $link) {
+  mutation(
+    $title: String!
+    $image: String!
+    $link: String!
+    $chapter: Int!
+    $time: String!
+    $date: String!
+  ) {
+    addArticle(
+      title: $title
+      image: $image
+      link: $link
+      chapter: $chapter
+      time: $time
+      date: $date
+    ) {
       ...CompleteArticle
     }
   }
   ${articleFragments.article}
+`;
+
+export const ADD_CHAPTER = gql`
+  mutation($number: Int!) {
+    addChapter(number: $number) {
+      ...CompleteChapter
+    }
+  }
+  ${chapterFragments.chapter}
 `;
 
 export const GET_ARTICLES = gql`
@@ -27,10 +50,42 @@ export const GET_ARTICLES = gql`
   }
 `;
 
+export const GET_ARTICLES_BY_CHAPTER = gql`
+  query($chapter: Int!) {
+    getArticlesByChapter(chapter: $chapter) {
+      _id
+      title
+      image
+      link
+      chapter
+      date
+      time
+    }
+  }
+`;
+
+export const GET_CHAPTERS = gql`
+  query {
+    getChapters {
+      _id
+      number
+    }
+  }
+`;
+
 export const DELETE_ARTICLE = gql`
   mutation($_id: ID!) {
     deleteArticle(_id: $_id) {
       _id
+    }
+  }
+`;
+
+export const DELETE_CHAPTER = gql`
+  mutation($_id: ID!, $number: Int!) {
+    deleteChapter(_id: $_id, number: $number) {
+      _id
+      number
     }
   }
 `;

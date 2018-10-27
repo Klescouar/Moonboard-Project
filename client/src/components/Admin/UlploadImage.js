@@ -63,7 +63,6 @@ class UploadImage extends Component {
           open={this.state.openSuccessSnackBar}
         />
         <SnackBarError text={ERROR_TEXT} open={this.state.openErrorSnackBar} />
-        <p className="UploadImage__Title">Choose a pic</p>
         <input
           accept="image/*"
           className={classes.input}
@@ -79,7 +78,7 @@ class UploadImage extends Component {
             component="span"
             className="UploadImage__Upload"
           >
-            Upload
+            Choose a pic
             <CloudUploadIcon />
           </Button>
         </label>

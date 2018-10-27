@@ -7,8 +7,8 @@ class Home extends Component {
   render() {
     return (
       <div className="Home">
-        <div className="Home__Navbar">
-          <h1 className="Home__Navbar__Title">MOONBOARD</h1>
+        <div className="Home__Presentation">
+          <h1 className="Home__Presentation__Title">MOONBOARD</h1>
         </div>
         <Query query={GET_ARTICLES}>
           {({ data, loading, error }) => {
@@ -21,8 +21,13 @@ class Home extends Component {
                     <strong>You have not added any articles yet</strong>
                   </p>
                 )}
-                {data.getArticles.map(article => (
-                  <Article key={article._id} article={article} />
+                {data.getArticles.map((articleByChapter, index) => (
+                  <div className="Home__Body__Chapter">
+                    <h1>CHAPTER {index + 1}</h1>
+                    {articleByChapter.map(article => (
+                      <Article key={article._id} article={article} />
+                    ))}
+                  </div>
                 ))}
               </div>
             );

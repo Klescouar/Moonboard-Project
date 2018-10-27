@@ -12,12 +12,12 @@ class BackgroundSoundPlayer extends Component {
     const { duration, currentTime, backgroundImage } = this.props;
 
     return (
-      <div
-        className="Player"
-        style={{
-          backgroundImage: `url(${require(`../../assets/images/${backgroundImage}`)})`
-        }}
-      >
+      <div className="Player">
+        <img
+          className="Player__Image"
+          src={require(`../../assets/images/${backgroundImage}`)}
+          alt="backgroundImage"
+        />
         <div className="Player__Button">
           <PlayButton className="Player__Button__Play" {...this.props} />
           <div className="Player__Button__Gauge">

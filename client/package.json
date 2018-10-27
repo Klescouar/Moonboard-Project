@@ -10,7 +10,7 @@
     "apollo-link-context": "^1.0.9",
     "apollo-link-http": "^1.5.5",
     "apollo-upload-client": "^9.0.0",
-    "graphql": "^^0.13.2",
+    "graphql": "^0.13.2",
     "graphql-tag": "^2.10.0",
     "node-sass": "^4.9.3",
     "react": "^16.5.2",
@@ -31,10 +31,5 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }

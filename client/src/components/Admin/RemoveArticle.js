@@ -1,124 +1,69 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import { NavLink } from 'react-router-dom';
+import { Query, Mutation } from 'react-apollo';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
-import SnackBarSuccess from '../SnackBar/SnackBarSuccess';
-import SnackBarError from '../SnackBar/SnackBarError';
+import AddIcon from '@material-ui/icons/Add';
+import ArticleCard from './ArticleCard';
+import DialogPopin from '../Dialog/Dialog';
 
-import { Query, Mutation } from 'react-apollo';
-import { DELETE_ARTICLE, GET_ARTICLES } from '../../queries';
+import { DELETE_ARTICLE, GET_ARTICLES_BY_CHAPTER } from '../../queries';
 
-const ERROR_TEXT = 'Sorry, deleting your article did not work...';
-const SUCCESS_TEXT = 'Great, your article is now removed!';
+const removeArticleDialog = {
+  title: 'Remove Article',
+  description: 'Are you sure you want to delete this article?',
+  error: 'Sorry, deleting your article did not work...',
+  success: 'Great, your article is now removed!'
+};
 
 class RemoveArticle extends Component {
   state = {
     openSuccessSnackBar: false,
     openErrorSnackBar: false,
     openDialog: false,
-    deleteArticle: {}
-  };
-
-  handleDelete = () => {
-    this.state
-      .deleteArticle()
-      .then(() => {
-        this.setState({
-          openSuccessSnackBar: true,
-          openDialog: false
-        });
-        setTimeout(() => {
-          this.setState({
-            openSuccessSnackBar: false
-          });
-        }, 3000);
-      })
-      .catch(() => {
-        this.setState({
-          openErrorSnackBar: true,
-          openDialog: false
-        });
-        setTimeout(() => {
-          this.setState({
-            openErrorSnackBar: false
-          });
-        }, 3000);
-      });
+    dialog: {
+      title: '',
+      description: '',
+      success: '',
+      error: ''
+    },
+    action: () => {}
   };
 
   handleClose = deleteArticle => {
     this.setState({ openDialog: false });
   };
 
-  handleDialog = deleteArticle => {
+  handleAction = (action, dialog) => {
     this.setState({
       openDialog: true,
-      deleteArticle: deleteArticle
+      action: action,
+      dialog: dialog
     });
   };
 
   render() {
-    const { fullScreen } = this.props;
+    const { chapter } = this.props;
+    const { openDialog, action, dialog } = this.state;
     return (
-      <Query query={GET_ARTICLES}>
+      <Query query={GET_ARTICLES_BY_CHAPTER} variables={{ chapter }}>
         {({ data, loading, error }) => {
           if (loading)
             return <CircularProgress className="Spinner" size={50} />;
           if (error) return <div>Error</div>;
           return (
             <div className="RemoveArticle">
-              <Dialog
-                className="RemoveArticle__Dialog"
-                fullScreen={fullScreen}
-                open={this.state.openDialog}
-                onClose={this.handleClose}
-                aria-labelledby="responsive-dialog-title"
-              >
-                <DialogTitle
-                  className="RemoveArticle__Dialog__Title"
-                  id="responsive-dialog-title"
-                >
-                  {'Remove Article'}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Are you sure you want to delete this article?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleDelete} color="primary">
-                    Yes
-                  </Button>
-                  <Button onClick={this.handleClose} color="primary" autoFocus>
-                    No
-                  </Button>
-                </DialogActions>
-              </Dialog>
-              <SnackBarSuccess
-                text={SUCCESS_TEXT}
-                open={this.state.openSuccessSnackBar}
+              <DialogPopin
+                withDialog
+                dialog={dialog}
+                openDialog={openDialog}
+                handleClose={this.handleClose}
+                action={action}
               />
-              <SnackBarError
-                text={ERROR_TEXT}
-                open={this.state.openErrorSnackBar}
-              />
-              {!data.getArticles.length && (
-                <p>
-                  <strong>You have not added any articles yet</strong>
-                </p>
-              )}
               <div className="RemoveArticle__Articles">
-                {data.getArticles.map(article => (
+                {data.getArticlesByChapter.map(article => (
                   <div
                     className="RemoveArticle__Articles__Article"
                     key={article._id}
@@ -126,63 +71,54 @@ class RemoveArticle extends Component {
                     <Mutation
                       mutation={DELETE_ARTICLE}
                       variables={{ _id: article._id }}
-                      refetchQueries={() => [{ query: GET_ARTICLES }]}
-                      update={(cache, { data: { deleteArticle } }) => {
-                        const { getArticles } = cache.readQuery({
-                          query: GET_ARTICLES
-                        });
-
+                      update={(cache, { data }) => {
+                        const articlesByChapter = cache.readQuery({
+                          query: GET_ARTICLES_BY_CHAPTER,
+                          variables: { chapter }
+                        }).getArticlesByChapter;
                         cache.writeQuery({
-                          query: GET_ARTICLES,
-
+                          query: GET_ARTICLES_BY_CHAPTER,
+                          variables: { chapter },
                           data: {
-                            getArticles: getArticles.filter(
-                              article => article._id !== deleteArticle._id
-                            )
+                            getArticlesByChapter: articlesByChapter
+                              .map(
+                                article =>
+                                  article._id !== data.deleteArticle._id &&
+                                  article
+                              )
+                              .filter(article => article !== false)
                           }
                         });
                       }}
                     >
                       {(deleteArticle, attrs = {}) => {
                         return (
-                          <Card className="RemoveArticle__Articles__Article__Card">
-                            <CardMedia
-                              className="RemoveArticle__Articles__Article__Card__Image"
-                              image={require(`../../assets/images/${
-                                article.image
-                              }`)}
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent className="RemoveArticle__Articles__Article__Card__Content">
-                              <Typography
-                                gutterBottom
-                                variant="headline"
-                                component="h2"
-                                className="RemoveArticle__Articles__Article__Card__Content__Title"
-                              >
-                                {article.title}
-                              </Typography>
-                              <Typography component="p">
-                                {article.description}
-                              </Typography>
-                            </CardContent>
-                            <CardActions className="RemoveArticle__Articles__Article__Card__Action">
-                              <Button
-                                size="small"
-                                onClick={() => this.handleDialog(deleteArticle)}
-                                color="primary"
-                                variant="outlined"
-                                className="RemoveArticle__Articles__Article__Card__Action__Button"
-                              >
-                                {attrs.loading ? 'deleting...' : 'DELETE'}
-                              </Button>
-                            </CardActions>
-                          </Card>
+                          <ArticleCard
+                            deleteArticle={deleteArticle}
+                            removeArticleDialog={removeArticleDialog}
+                            attrs={attrs}
+                            article={article}
+                            handleAction={this.handleAction}
+                          />
                         );
                       }}
                     </Mutation>
                   </div>
                 ))}
+                <NavLink
+                  className="HandleArticle__Chapter__AddArticle"
+                  to={`/admin/backoffice/addArticle/chapter/${chapter}`}
+                >
+                  <Typography component="h1">ADD AN ARTICLE</Typography>
+                  <Button
+                    className="HandleArticle__Chapter__AddArticle__Icon"
+                    variant="fab"
+                    color="primary"
+                    aria-label="Add"
+                  >
+                    <AddIcon />
+                  </Button>
+                </NavLink>
               </div>
             </div>
           );
