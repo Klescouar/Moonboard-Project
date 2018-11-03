@@ -6,6 +6,27 @@
     position: relative;
     margin-left: 1rem;
     &__Chapter {
+      &__Header {
+        position: relative;
+        z-index: 1;
+        &__Description {
+          margin: 0 1rem 0 !important;
+          font-weight: bold !important;
+          font-style: italic !important;
+        }
+        &__AddDescription {
+          position: relative;
+          z-index: 1000;
+          padding: 0 !important;
+          min-height: auto !important;
+          pointer-events: stroke;
+          span {
+            font-size: 0.7rem;
+            font-style: italic;
+            text-transform: capitalize;
+          }
+        }
+      }
       &__Content {
         @media screen and (max-width: 600px) {
           padding: 0 !important;
@@ -38,7 +59,6 @@
       min-width: 13rem;
       width: 29%;
       margin: 1rem;
-      height: 17rem;
       display: flex;
       justify-content: center;
       align-items: center;

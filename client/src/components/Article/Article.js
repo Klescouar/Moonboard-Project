@@ -1,21 +1,18 @@
-import React, { Component } from 'react';
-import BackgroundSoundPlayer from '../Player/Player';
+import React, { Component } from "react";
+import BackgroundSoundPlayer from "../Player/Player";
 
 class Article extends Component {
   render() {
-    const CLIENT_ID = '9wwOSWzjdxpbW1RCWC7Ti3hokI6jXhrs';
+    const CLIENT_ID = "9wwOSWzjdxpbW1RCWC7Ti3hokI6jXhrs";
     const resolveUrl = this.props.article.link;
     return (
       <div className="Article">
-        <div className="Article__Title">
-          <p>{this.props.article.title}</p>
-        </div>
         <BackgroundSoundPlayer
           resolveUrl={resolveUrl}
           clientId={CLIENT_ID}
-          backgroundImage={this.props.article.image}
+          article={this.props.article}
           onReady={() => {
-            console.log('player url ready!');
+            console.log("player url ready!");
           }}
         />
       </div>

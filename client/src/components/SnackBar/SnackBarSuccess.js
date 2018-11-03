@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import { MySnackbarContentWrapper } from './SnackBarContent';
+import React from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import { MySnackbarContentWrapper } from "./SnackBarContent";
 
 const styles2 = theme => ({
   margin: {
@@ -12,13 +12,12 @@ const styles2 = theme => ({
 
 class CustomizedSnackbars extends React.Component {
   render() {
-    console.log(this.props.open);
     return (
       <div>
         <Snackbar
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left'
+            vertical: "bottom",
+            horizontal: "left"
           }}
           open={this.props.open}
         >

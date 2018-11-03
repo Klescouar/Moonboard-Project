@@ -1,32 +1,42 @@
-import React, { Component } from 'react';
-import RemoveArticle from './RemoveArticle';
-import Button from '@material-ui/core/Button';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DialogPopin from '../Dialog/Dialog';
+import React, { Component } from "react";
+import { Query, Mutation } from "react-apollo";
+import Button from "@material-ui/core/Button";
+import withMobileDialog from "@material-ui/core/withMobileDialog";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogPopin from "../Dialog/Dialog";
+import RemoveArticle from "./RemoveArticle";
 
-import { Query, Mutation } from 'react-apollo';
-import { GET_CHAPTERS, ADD_CHAPTER, DELETE_CHAPTER } from '../../queries';
+import {
+  GET_CHAPTERS,
+  ADD_CHAPTER,
+  DELETE_CHAPTER,
+  ADD_CHAPTER_DESCRIPTION
+} from "../../queries";
 
 const removeChapterDialog = {
-  title: 'Remove Chapter',
+  title: "Remove Chapter",
   description:
-    'Are you sure you want to delete this chapter? All articles associated with this chapter will be permanently deleted',
-  error: 'Sorry, deleting your chapter did not work...',
-  success: 'Great, your chapter is now removed!'
+    "Are you sure you want to delete this chapter? All articles associated with this chapter will be permanently deleted",
+  error: "Sorry, deleting your chapter did not work...",
+  success: "Great, your chapter is now removed!"
 };
 
 const addChapterDialog = {
-  title: 'Add Chapter',
-  description: 'Are you sure you want to add a chapter?',
-  error: 'Sorry, adding your chapter did not work...',
-  success: 'Great, your chapter is now added!'
+  title: "Add Chapter",
+  description: "Are you sure you want to add a chapter?",
+  error: "Sorry, adding your chapter did not work...",
+  success: "Great, your chapter is now added!"
 };
 
 class HandleArticle extends Component {
@@ -34,18 +44,39 @@ class HandleArticle extends Component {
     openSuccessSnackBar: false,
     openErrorSnackBar: false,
     openDialog: false,
+    openForm: false,
+    chapterDescription: "",
+    chapterSelected: "",
     action: () => {},
     expanded: 1,
     dialog: {
-      title: '',
-      description: '',
-      success: '',
-      error: ''
+      title: "",
+      description: "",
+      success: "",
+      error: ""
     }
   };
 
   handleClose = deleteArticle => {
     this.setState({ openDialog: false });
+  };
+
+  handleCloseForm = () => {
+    this.setState({
+      openForm: false
+    });
+  };
+
+  handleFormChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  handleClickOpenForm = (event, _id) => {
+    event.preventDefault();
+    this.setState({ openForm: true, chapterSelected: _id }, () => {
+      this.setState({ expanded: 0 });
+    });
   };
 
   handleChange = panel => (event, expanded) => {
@@ -64,7 +95,13 @@ class HandleArticle extends Component {
 
   render() {
     const { expanded } = this.state;
-    const { openDialog, action, dialog } = this.state;
+    const {
+      openDialog,
+      action,
+      dialog,
+      chapterDescription,
+      chapterSelected
+    } = this.state;
     return (
       <Query query={GET_CHAPTERS}>
         {({ loading, error, data }) => {
@@ -79,9 +116,68 @@ class HandleArticle extends Component {
                 action={action}
                 dialog={dialog}
               />
+              <Mutation
+                mutation={ADD_CHAPTER_DESCRIPTION}
+                variables={{
+                  _id: chapterSelected,
+                  description: chapterDescription
+                }}
+                update={(cache, { data }) => {
+                  const chapters = cache.readQuery({
+                    query: GET_CHAPTERS
+                  }).getChapters;
+                  cache.writeQuery({
+                    query: GET_CHAPTERS,
+                    data: {
+                      getChapters: chapters
+                    }
+                  });
+                }}
+              >
+                {(addChapterDescription, { loading, error }) => (
+                  <Dialog
+                    open={this.state.openForm}
+                    onClose={this.handleCloseForm}
+                    aria-labelledby="form-dialog-title"
+                  >
+                    <DialogTitle id="form-dialog-title">
+                      Add a chapter description
+                    </DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        label="Multiline"
+                        multiline
+                        name="chapterDescription"
+                        value={this.state.chapterDescription}
+                        onChange={this.handleFormChange}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={() => this.setState({ openForm: false })}
+                        color="primary"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          addChapterDescription();
+                          this.setState({ openForm: false });
+                        }}
+                        color="primary"
+                      >
+                        Add
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                )}
+              </Mutation>
               {data.getChapters
                 .sort((a, b) => a.number > b.number)
-                .map(({ _id, number }) => {
+                .map(({ _id, number, description }) => {
                   return (
                     <div key={_id} className="HandleArticle__Section">
                       <Mutation
@@ -136,6 +232,24 @@ class HandleArticle extends Component {
                           <Typography component="h1">
                             Chapitre {number}
                           </Typography>
+                          {description && (
+                            <Typography
+                              className="HandleArticle__Section__Chapter__Header__Description"
+                              component="p"
+                            >
+                              {description}
+                            </Typography>
+                          )}
+                          <Button
+                            className="HandleArticle__Section__Chapter__Header__AddDescription"
+                            onClick={event =>
+                              this.handleClickOpenForm(event, _id)
+                            }
+                          >
+                            {description
+                              ? "Modify description"
+                              : "Add description"}
+                          </Button>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className="HandleArticle__Section__Chapter__Content">
                           <RemoveArticle chapter={number} />
@@ -169,7 +283,7 @@ class HandleArticle extends Component {
                           this.handleAction(addChapter, addChapterDialog)
                         }
                       >
-                        {loading ? 'Loading...' : 'Add a chapter'}
+                        {loading ? "Loading..." : "Add a chapter"}
                       </Button>
                     </form>
                     {error && <p>Error :( Please try again</p>}

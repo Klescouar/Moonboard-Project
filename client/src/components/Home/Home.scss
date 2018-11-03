@@ -1,5 +1,5 @@
 .Home {
-  font-family: 'Ubuntu';
+  font-family: "Ubuntu";
 
   &__Presentation {
     height: 100vh;
@@ -22,6 +22,17 @@
     padding: 5rem 1rem 0;
     &__Chapter {
       width: 100%;
+      &__Header {
+        display: flex;
+        align-items: center;
+        @media screen and (max-width: 600px) {
+          display: block;
+        }
+        p {
+          font-style: italic;
+          margin-left: 2rem;
+        }
+      }
     }
   }
 }

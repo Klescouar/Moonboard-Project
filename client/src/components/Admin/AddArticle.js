@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { ADD_ARTICLE } from '../../queries';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import UploadImage from './UlploadImage';
-import SnackBarSuccess from '../SnackBar/SnackBarSuccess';
-import SnackBarError from '../SnackBar/SnackBarError';
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import { ADD_ARTICLE } from "../../queries";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import UploadImage from "./UlploadImage";
+import SnackBarSuccess from "../SnackBar/SnackBarSuccess";
+import SnackBarError from "../SnackBar/SnackBarError";
 
 const addArticleDialog = {
-  error: 'Sorry, creating your article did not work...',
-  success: 'Great, your article is now created!'
+  error: "Sorry, creating your article did not work...",
+  success: "Great, your article is now created!"
 };
 
 const initialState = {
-  title: '',
-  image: '',
-  time: '',
-  date: '',
-  link: '',
+  description: "",
+  image: "",
+  time: "",
+  date: "",
+  link: "",
   chapter: null,
   openErrorSnackBar: false,
   openSuccessSnackBar: false
@@ -54,6 +54,7 @@ class AddArticle extends Component {
             openSuccessSnackBar: false
           });
         }, 3000);
+        this.props.history.push("/admin/backoffice");
       })
       .catch(err => {
         this.setState({
@@ -68,14 +69,14 @@ class AddArticle extends Component {
   };
 
   validateForm = () => {
-    const { title, image, link } = this.state;
-    const isInvalid = !title || !link || !image;
+    const { description, image, link } = this.state;
+    const isInvalid = !description || !link || !image;
     return isInvalid;
   };
 
   render() {
     const {
-      title,
+      description,
       image,
       link,
       chapter,
@@ -88,7 +89,7 @@ class AddArticle extends Component {
       <Mutation
         mutation={ADD_ARTICLE}
         variables={{
-          title,
+          description,
           image,
           link,
           time,
@@ -112,17 +113,6 @@ class AddArticle extends Component {
                 onSubmit={event => this.handleSubmit(event, addArticle)}
               >
                 <p className="AddArticle__Form__Title">ADD AN ARTICLE</p>
-                <TextField
-                  required
-                  id="standard-name"
-                  name="title"
-                  value={title}
-                  label="Article's title"
-                  variant="outlined"
-                  className="AddArticle__Form__Input"
-                  onChange={event => this.handleChange(event)}
-                  margin="normal"
-                />
                 <TextField
                   id="time"
                   label="Time"
@@ -151,6 +141,19 @@ class AddArticle extends Component {
                   name="image"
                   fileName={image}
                   getFileName={this.getFileName}
+                />
+                <TextField
+                  required
+                  id="standard-name"
+                  name="description"
+                  value={description}
+                  label="Article's description"
+                  variant="outlined"
+                  multiline
+                  rows="4"
+                  className="AddArticle__Form__Input"
+                  onChange={event => this.handleChange(event)}
+                  margin="normal"
                 />
                 <TextField
                   required

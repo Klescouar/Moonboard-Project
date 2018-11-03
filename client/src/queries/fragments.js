@@ -1,9 +1,9 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const articleFragments = {
   article: gql`
     fragment CompleteArticle on Article {
-      title
+      description
       image
       link
       date
@@ -18,6 +18,7 @@ export const chapterFragments = {
     fragment CompleteChapter on Chapter {
       _id
       number
+      description
     }
   `
 };

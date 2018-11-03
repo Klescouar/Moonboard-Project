@@ -1,5 +1,5 @@
-import gql from 'graphql-tag';
-import { articleFragments, chapterFragments } from './fragments';
+import gql from "graphql-tag";
+import { articleFragments, chapterFragments } from "./fragments";
 
 export const UploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -9,7 +9,7 @@ export const UploadImageMutation = gql`
 
 export const ADD_ARTICLE = gql`
   mutation(
-    $title: String!
+    $description: String!
     $image: String!
     $link: String!
     $chapter: Int!
@@ -17,7 +17,7 @@ export const ADD_ARTICLE = gql`
     $date: String!
   ) {
     addArticle(
-      title: $title
+      description: $description
       image: $image
       link: $link
       chapter: $chapter
@@ -39,13 +39,32 @@ export const ADD_CHAPTER = gql`
   ${chapterFragments.chapter}
 `;
 
+export const ADD_CHAPTER_DESCRIPTION = gql`
+  mutation($_id: ID, $description: String!) {
+    addChapterDescription(_id: $_id, description: $description) {
+      ...CompleteChapter
+    }
+  }
+  ${chapterFragments.chapter}
+`;
+
 export const GET_ARTICLES = gql`
   query {
     getArticles {
-      _id
-      title
-      image
-      link
+      chapter {
+        _id
+        number
+        description
+      }
+      articles {
+        _id
+        description
+        image
+        link
+        chapter
+        date
+        time
+      }
     }
   }
 `;
@@ -54,7 +73,7 @@ export const GET_ARTICLES_BY_CHAPTER = gql`
   query($chapter: Int!) {
     getArticlesByChapter(chapter: $chapter) {
       _id
-      title
+      description
       image
       link
       chapter
@@ -69,6 +88,7 @@ export const GET_CHAPTERS = gql`
     getChapters {
       _id
       number
+      description
     }
   }
 `;

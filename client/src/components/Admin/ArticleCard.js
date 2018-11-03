@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import React, { Component } from "react";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 class ArticleCard extends Component {
   render() {
@@ -30,9 +30,8 @@ class ArticleCard extends Component {
             component="h2"
             className="RemoveArticle__Articles__Article__Card__Content__Title"
           >
-            {article.title}
+            {article.description}
           </Typography>
-          <Typography component="p">{article.description}</Typography>
         </CardContent>
         <CardActions className="RemoveArticle__Articles__Article__Card__Action">
           <Button
@@ -42,7 +41,7 @@ class ArticleCard extends Component {
             variant="outlined"
             className="RemoveArticle__Articles__Article__Card__Action__Button"
           >
-            {attrs.loading ? 'deleting...' : 'DELETE'}
+            {attrs.loading ? "deleting..." : "DELETE"}
           </Button>
         </CardActions>
       </Card>

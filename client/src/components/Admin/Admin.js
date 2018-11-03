@@ -5,16 +5,11 @@ import classNames from 'classnames';
 import windowSize from 'react-window-size';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './ListItems';
 import HandleArticle from './HandleArticle';
 import AddArticle from './AddArticle';
 import withAuth from '../withAuth';
@@ -115,13 +110,7 @@ class Dashboard extends React.Component {
         <Fragment>
           <CssBaseline />
           <div className={`Admin ${classes.root}`}>
-            <AppBar
-              position="absolute"
-              className={classNames(
-                classes.appBar,
-                this.state.open && classes.appBarShift
-              )}
-            >
+            <AppBar position="absolute">
               <Toolbar
                 disableGutters={!this.state.open}
                 className={classes.toolbar}
@@ -150,24 +139,6 @@ class Dashboard extends React.Component {
                 )}
               </Toolbar>
             </AppBar>
-            <Drawer
-              variant="permanent"
-              classes={{
-                paper: classNames(
-                  classes.drawerPaper,
-                  !this.state.open && classes.drawerPaperClose
-                )
-              }}
-              open={this.state.open}
-            >
-              <div className={classes.toolbarIcon}>
-                <IconButton onClick={this.handleDrawerClose}>
-                  <ChevronLeftIcon />
-                </IconButton>
-              </div>
-              <Divider />
-              <List>{mainListItems}</List>
-            </Drawer>
             <main className={`Admin__Content ${classes.content}`}>
               <Fragment>
                 <Route
