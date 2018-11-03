@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
-  title: {
+  description: {
     type: String,
     required: true
   },
@@ -13,11 +13,23 @@ const ArticleSchema = new Schema({
   link: {
     type: String,
     required: true
+  },
+  chapter: {
+    type: Number,
+    required: true
+  },
+  date: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
   }
 });
 
 ArticleSchema.index({
-  '$**': 'text'
+  "$**": "text"
 });
 
-module.exports = mongoose.model('Article', ArticleSchema);
+module.exports = mongoose.model("Article", ArticleSchema);
