@@ -15,6 +15,7 @@ export const ADD_ARTICLE = gql`
     $chapter: Int!
     $time: String!
     $date: String!
+    $place: String!
   ) {
     addArticle(
       description: $description
@@ -23,6 +24,7 @@ export const ADD_ARTICLE = gql`
       chapter: $chapter
       time: $time
       date: $date
+      place: $place
     ) {
       ...CompleteArticle
     }
@@ -63,6 +65,7 @@ export const GET_ARTICLES = gql`
         link
         chapter
         date
+        place
         time
       }
     }
@@ -78,6 +81,7 @@ export const GET_ARTICLES_BY_CHAPTER = gql`
       link
       chapter
       date
+      place
       time
     }
   }

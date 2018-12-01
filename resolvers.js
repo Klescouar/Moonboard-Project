@@ -79,7 +79,7 @@ exports.resolvers = {
     singleUpload: (obj, { file }) => processUpload(file),
     addArticle: async (
       root,
-      { description, image, link, chapter, time, date },
+      { description, image, link, place, chapter, time, date },
       { Article }
     ) => {
       const newArticle = await new Article({
@@ -88,6 +88,7 @@ exports.resolvers = {
         link,
         chapter,
         date,
+        place,
         time
       }).save();
     },

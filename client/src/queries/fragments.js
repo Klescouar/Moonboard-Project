@@ -7,6 +7,7 @@ export const articleFragments = {
       image
       link
       date
+      place
       time
       chapter
     }

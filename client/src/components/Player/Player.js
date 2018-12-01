@@ -11,7 +11,6 @@ import {
 class BackgroundSoundPlayer extends Component {
   render() {
     const { duration, currentTime, article } = this.props;
-    console.log(this.props);
 
     return (
       <div className="Player">

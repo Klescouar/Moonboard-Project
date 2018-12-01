@@ -8,11 +8,17 @@
     display: flex;
     flex-wrap: wrap;
     &__Article {
+      flex-grow: 1;
       min-width: 13rem;
-      width: 29%;
+      max-width: 25rem;
+      height: 28rem;
       margin: 1rem;
       &__Card {
+        height: 100%;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         &__Content {
           &__Title {
             text-align: center;
@@ -25,8 +31,10 @@
         }
         &__Action {
           width: 100%;
+          margin-bottom: 0.5rem;
           &__Button {
             width: 100%;
+            padding: 1rem !important;
           }
         }
       }

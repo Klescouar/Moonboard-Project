@@ -14,6 +14,10 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  place: {
+    type: String,
+    required: true
+  },
   chapter: {
     type: Number,
     required: true

@@ -7,6 +7,7 @@ exports.typeDefs = `
     chapter: Int!
     date: String!
     time: String!
+    place: String!
   }
 
   type File {

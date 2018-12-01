@@ -20,6 +20,7 @@ const initialState = {
   time: "",
   date: "",
   link: "",
+  place: "",
   chapter: null,
   openErrorSnackBar: false,
   openSuccessSnackBar: false
@@ -81,6 +82,7 @@ class AddArticle extends Component {
       link,
       chapter,
       time,
+      place,
       date,
       openSuccessSnackBar,
       openErrorSnackBar
@@ -94,6 +96,7 @@ class AddArticle extends Component {
           link,
           time,
           date,
+          place,
           chapter: Number(chapter)
         }}
       >
@@ -136,6 +139,17 @@ class AddArticle extends Component {
                   InputLabelProps={{
                     shrink: true
                   }}
+                />
+                <TextField
+                  required
+                  id="place"
+                  name="link"
+                  value={place}
+                  variant="outlined"
+                  label="Place"
+                  className="AddArticle__Form__Input"
+                  onChange={event => this.handleChange(event)}
+                  margin="normal"
                 />
                 <UploadImage
                   name="image"

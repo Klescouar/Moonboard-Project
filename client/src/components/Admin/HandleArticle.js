@@ -146,7 +146,7 @@ class HandleArticle extends Component {
                     <DialogContent>
                       <TextField
                         id="outlined-multiline-flexible"
-                        label="Multiline"
+                        label="Description"
                         multiline
                         name="chapterDescription"
                         value={this.state.chapterDescription}
@@ -229,7 +229,10 @@ class HandleArticle extends Component {
                           className="HandleArticle__Section__Chapter__Header"
                           expandIcon={<ExpandMoreIcon />}
                         >
-                          <Typography component="h1">
+                          <Typography
+                            component="h1"
+                            className="HandleArticle__Section__Chapter__Header__Title"
+                          >
                             Chapitre {number}
                           </Typography>
                           {description && (
