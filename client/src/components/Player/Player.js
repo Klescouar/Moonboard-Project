@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import Lightbox from "react-image-lightbox";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import TruncateMarkup from "react-truncate-markup";
 import { withSoundCloudAudio } from "react-soundplayer/addons";
 import {
   PlayButton,
@@ -9,16 +11,51 @@ import {
 } from "react-soundplayer/components";
 
 class BackgroundSoundPlayer extends Component {
+  state = { shouldTruncate: true, isOpen: false, imgSrc: "" };
+
+  toggleTruncate = () => {
+    this.setState(state => ({ shouldTruncate: !state.shouldTruncate }));
+  };
+
   render() {
     const { duration, currentTime, article } = this.props;
+    const { isOpen, imgSrc } = this.state;
+    const readMoreEllipsis = (
+      <span>
+        {" "}
+        <span className="ReadMore" onClick={this.toggleTruncate}>
+          Read more
+        </span>
+      </span>
+    );
 
     return (
       <div className="Player">
-        <img
-          className="Player__Image"
-          src={require(`../../assets/images/${article.image}`)}
-          alt="backgroundImage"
-        />
+        {isOpen && (
+          <Lightbox
+            mainSrc={imgSrc}
+            onCloseRequest={() => this.setState({ isOpen: false })}
+          />
+        )}
+        <figure className="snip1577">
+          <img
+            className="Player__Image"
+            src={require(`../../assets/images/${article.image}`)}
+            alt="backgroundImage"
+            onClick={() =>
+              this.setState({
+                isOpen: true,
+                imgSrc: require(`../../assets/images/${article.image}`)
+              })
+            }
+          />
+          <figcaption>
+            <h3>{article.place}</h3>
+            <p>
+              {article.date} {article.time}
+            </p>
+          </figcaption>
+        </figure>
         <div className="Player__Button">
           <PlayButton
             className={classNames({
@@ -39,14 +76,23 @@ class BackgroundSoundPlayer extends Component {
             />
           </div>
         </div>
-        <p className="Player__Description">
-          <span className="Player__Description__Date">
-            {article.date} - {article.time} :
-          </span>{" "}
-          <span className="Player__Description__Text">
-            "{article.description}"
-          </span>
-        </p>
+        <span className="Player__Description__Date">
+          {article.date} - {article.time} :
+        </span>{" "}
+        {this.state.shouldTruncate ? (
+          <TruncateMarkup lines={2} ellipsis={readMoreEllipsis}>
+            <div className="Player__Description__Text">
+              {article.description}
+            </div>
+          </TruncateMarkup>
+        ) : (
+          <div className="Player__Description__Text">
+            {article.description}
+            <span className="ReadMore" onClick={this.toggleTruncate}>
+              {"Show less"}
+            </span>
+          </div>
+        )}
       </div>
     );
   }

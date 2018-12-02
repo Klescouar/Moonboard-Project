@@ -1,14 +1,14 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-import { ApolloConsumer } from 'react-apollo';
+import { ApolloConsumer } from "react-apollo";
 
 const handleSignout = (client, history) => {
-  localStorage.setItem('token', '');
+  localStorage.setItem("token", "");
   client.resetStore();
-  history.push('/');
+  history.push("/");
 };
 
 const Signout = ({ history, session }) => {
@@ -21,7 +21,7 @@ const Signout = ({ history, session }) => {
               <Button
                 onClick={() => handleSignout(client, history)}
                 className="Logout"
-                variant="extendedFab"
+                variant="contained"
                 aria-label="Delete"
               >
                 <AccountCircleIcon className="Logout__Icon" />

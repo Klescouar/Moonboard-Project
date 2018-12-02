@@ -52,7 +52,7 @@ exports.typeDefs = `
   type Mutation {
     singleUpload(file: Upload!): File!
     addChapterDescription(_id: ID, description: String!): Chapter
-    addArticle(description: String!, image: String!, link: String!, chapter: Int!, time: String!, date: String!): Article
+    addArticle(description: String!, image: String!, link: String!, chapter: Int!, time: String!, date: String!, place: String!): Article
     addChapter(number: Int!): Chapter
     deleteChapter(_id: ID, number: Int!): Chapter
     deleteArticle(_id: ID): Article

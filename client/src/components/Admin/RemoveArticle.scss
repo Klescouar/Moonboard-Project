@@ -22,11 +22,15 @@
         &__Content {
           &__Title {
             text-align: center;
+            text-overflow: ellipsis !important;
+            overflow: hidden;
+            max-height: 10rem;
+            font-size: 1rem !important;
             margin-bottom: 0 !important;
           }
         }
         &__Image {
-          height: 10rem;
+          height: 14rem;
           width: 100%;
         }
         &__Action {

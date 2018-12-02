@@ -33,6 +33,8 @@ class AddArticle extends Component {
   }
 
   handleChange(event) {
+    console.log(event.target.name);
+    console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -70,8 +72,9 @@ class AddArticle extends Component {
   };
 
   validateForm = () => {
-    const { description, image, link } = this.state;
-    const isInvalid = !description || !link || !image;
+    const { description, image, link, date, place, time } = this.state;
+    const isInvalid =
+      !description || !link || !image || !date || !time || !place;
     return isInvalid;
   };
 
@@ -87,6 +90,7 @@ class AddArticle extends Component {
       openSuccessSnackBar,
       openErrorSnackBar
     } = this.state;
+    console.log(this.state);
     return (
       <Mutation
         mutation={ADD_ARTICLE}
@@ -143,7 +147,7 @@ class AddArticle extends Component {
                 <TextField
                   required
                   id="place"
-                  name="link"
+                  name="place"
                   value={place}
                   variant="outlined"
                   label="Place"

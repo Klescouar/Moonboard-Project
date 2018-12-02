@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Query, Mutation } from 'react-apollo';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
-import AddIcon from '@material-ui/icons/Add';
-import ArticleCard from './ArticleCard';
-import DialogPopin from '../Dialog/Dialog';
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
+import { Query, Mutation } from "react-apollo";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import withMobileDialog from "@material-ui/core/withMobileDialog";
+import AddIcon from "@material-ui/icons/Add";
+import ArticleCard from "./ArticleCard";
+import DialogPopin from "../Dialog/Dialog";
 
-import { DELETE_ARTICLE, GET_ARTICLES_BY_CHAPTER } from '../../queries';
+import { DELETE_ARTICLE, GET_ARTICLES_BY_CHAPTER } from "../../queries";
 
 const removeArticleDialog = {
-  title: 'Remove Article',
-  description: 'Are you sure you want to delete this article?',
-  error: 'Sorry, deleting your article did not work...',
-  success: 'Great, your article is now removed!'
+  title: "Remove Article",
+  description: "Are you sure you want to delete this article?",
+  error: "Sorry, deleting your article did not work...",
+  success: "Great, your article is now removed!"
 };
 
 class RemoveArticle extends Component {
@@ -24,10 +24,10 @@ class RemoveArticle extends Component {
     openErrorSnackBar: false,
     openDialog: false,
     dialog: {
-      title: '',
-      description: '',
-      success: '',
-      error: ''
+      title: "",
+      description: "",
+      success: "",
+      error: ""
     },
     action: () => {}
   };
@@ -109,10 +109,15 @@ class RemoveArticle extends Component {
                   className="HandleArticle__Chapter__AddArticle"
                   to={`/admin/backoffice/addArticle/chapter/${chapter}`}
                 >
-                  <Typography component="h1">ADD AN ARTICLE</Typography>
+                  <Typography
+                    className="HandleArticle__Chapter__AddArticle__Title"
+                    component="h1"
+                  >
+                    ADD AN ARTICLE
+                  </Typography>
                   <Button
                     className="HandleArticle__Chapter__AddArticle__Icon"
-                    variant="fab"
+                    variant="contained"
                     color="primary"
                     aria-label="Add"
                   >

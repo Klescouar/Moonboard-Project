@@ -13,6 +13,7 @@ import Signin from "./components/Auth/Signin";
 import Signup from "./components/Auth/Signup";
 import withSession from "./components/withSession";
 import Signout from "./components/Auth/Signout";
+import "react-image-lightbox/style.css";
 import "./components/Home/Home.scss";
 import "./components/Article/Article.scss";
 import "./components/Player/Player.scss";

@@ -11,9 +11,6 @@ class Article extends Component {
           resolveUrl={resolveUrl}
           clientId={CLIENT_ID}
           article={this.props.article}
-          onReady={() => {
-            console.log("player url ready!");
-          }}
         />
       </div>
     );

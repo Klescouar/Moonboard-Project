@@ -91,8 +91,14 @@
       border-radius: 0.4rem;
       text-decoration: none;
       color: black;
+      padding: 3rem;
+
       &:hover {
         background-color: rgba(0, 0, 0, 0.15);
+      }
+
+      &__Title {
+        font-size: 2rem !important;
       }
       &__Icon {
         margin-top: 1.5rem !important;
