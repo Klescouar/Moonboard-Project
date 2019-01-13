@@ -147,7 +147,7 @@ class Dashboard extends React.Component {
                   component={HandleArticle}
                 />
                 <Route
-                  path="/admin/backoffice/addArticle/chapter/:chapter"
+                  path="/admin/backoffice/addArticle/country/:country"
                   component={AddArticle}
                 />
               </Fragment>

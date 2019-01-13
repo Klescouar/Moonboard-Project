@@ -18,25 +18,25 @@ import DialogPopin from "../Dialog/Dialog";
 import RemoveArticle from "./RemoveArticle";
 
 import {
-  GET_CHAPTERS,
-  ADD_CHAPTER,
-  DELETE_CHAPTER,
-  ADD_CHAPTER_DESCRIPTION
+  GET_COUNTRIES,
+  ADD_COUNTRY,
+  DELETE_COUNTRY,
+  ADD_COUNTRY_DESCRIPTION
 } from "../../queries";
 
-const removeChapterDialog = {
-  title: "Remove Chapter",
+const removeCountryDialog = {
+  title: "Remove Country",
   description:
-    "Are you sure you want to delete this chapter? All articles associated with this chapter will be permanently deleted",
-  error: "Sorry, deleting your chapter did not work...",
-  success: "Great, your chapter is now removed!"
+    "Are you sure you want to delete this country? All articles associated with this country will be permanently deleted",
+  error: "Sorry, deleting your country did not work...",
+  success: "Great, your country is now removed!"
 };
 
-const addChapterDialog = {
-  title: "Add Chapter",
-  description: "Are you sure you want to add a chapter?",
-  error: "Sorry, adding your chapter did not work...",
-  success: "Great, your chapter is now added!"
+const addCountryDialog = {
+  title: "Add Country",
+  description: "Are you sure you want to add a country?",
+  error: "Sorry, adding your country did not work...",
+  success: "Great, your country is now added!"
 };
 
 class HandleArticle extends Component {
@@ -45,8 +45,9 @@ class HandleArticle extends Component {
     openErrorSnackBar: false,
     openDialog: false,
     openForm: false,
-    chapterDescription: "",
-    chapterSelected: "",
+    countryDescription: "",
+    countrySelected: "",
+    country: "",
     action: () => {},
     expanded: 1,
     dialog: {
@@ -74,7 +75,7 @@ class HandleArticle extends Component {
 
   handleClickOpenForm = (event, _id) => {
     event.preventDefault();
-    this.setState({ openForm: true, chapterSelected: _id }, () => {
+    this.setState({ openForm: true, countrySelected: _id }, () => {
       this.setState({ expanded: 0 });
     });
   };
@@ -84,6 +85,10 @@ class HandleArticle extends Component {
       expanded: expanded ? panel : false
     });
   };
+
+  handleFormChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
 
   handleAction = (action, dialog) => {
     this.setState({
@@ -99,11 +104,12 @@ class HandleArticle extends Component {
       openDialog,
       action,
       dialog,
-      chapterDescription,
-      chapterSelected
+      country,
+      countryDescription,
+      countrySelected
     } = this.state;
     return (
-      <Query query={GET_CHAPTERS}>
+      <Query query={GET_COUNTRIES}>
         {({ loading, error, data }) => {
           if (loading) return <p>Loading...</p>;
           if (error) return <p>Error :(</p>;
@@ -117,39 +123,39 @@ class HandleArticle extends Component {
                 dialog={dialog}
               />
               <Mutation
-                mutation={ADD_CHAPTER_DESCRIPTION}
+                mutation={ADD_COUNTRY_DESCRIPTION}
                 variables={{
-                  _id: chapterSelected,
-                  description: chapterDescription
+                  _id: countrySelected,
+                  description: countryDescription
                 }}
                 update={(cache, { data }) => {
-                  const chapters = cache.readQuery({
-                    query: GET_CHAPTERS
-                  }).getChapters;
+                  const countries = cache.readQuery({
+                    query: GET_COUNTRIES
+                  }).getCountries;
                   cache.writeQuery({
-                    query: GET_CHAPTERS,
+                    query: GET_COUNTRIES,
                     data: {
-                      getChapters: chapters
+                      getCountries: countries
                     }
                   });
                 }}
               >
-                {(addChapterDescription, { loading, error }) => (
+                {(addCountryDescription, { loading, error }) => (
                   <Dialog
                     open={this.state.openForm}
                     onClose={this.handleCloseForm}
                     aria-labelledby="form-dialog-title"
                   >
                     <DialogTitle id="form-dialog-title">
-                      Add a chapter description
+                      Add a country description
                     </DialogTitle>
                     <DialogContent>
                       <TextField
                         id="outlined-multiline-flexible"
                         label="Description"
                         multiline
-                        name="chapterDescription"
-                        value={this.state.chapterDescription}
+                        name="countryDescription"
+                        value={this.state.countryDescription}
                         onChange={this.handleFormChange}
                         margin="normal"
                         variant="outlined"
@@ -164,7 +170,7 @@ class HandleArticle extends Component {
                       </Button>
                       <Button
                         onClick={() => {
-                          addChapterDescription();
+                          addCountryDescription();
                           this.setState({ openForm: false });
                         }}
                         color="primary"
@@ -175,118 +181,127 @@ class HandleArticle extends Component {
                   </Dialog>
                 )}
               </Mutation>
-              {data.getChapters
-                .sort((a, b) => a.number > b.number)
-                .map(({ _id, number, description }) => {
-                  return (
-                    <div key={_id} className="HandleArticle__Section">
-                      <Mutation
-                        mutation={DELETE_CHAPTER}
-                        variables={{ _id, number }}
-                        update={(cache, { data }) => {
-                          const chapters = cache.readQuery({
-                            query: GET_CHAPTERS
-                          }).getChapters;
-                          cache.writeQuery({
-                            query: GET_CHAPTERS,
-                            data: {
-                              getChapters: chapters
-                                .map(
-                                  chapter =>
-                                    chapter._id !== data.deleteChapter._id &&
-                                    chapter
+              {data.getCountries.map(({ _id, country, description }) => {
+                return (
+                  <div key={_id} className="HandleArticle__Section">
+                    <Mutation
+                      mutation={DELETE_COUNTRY}
+                      variables={{ _id, country }}
+                      update={(cache, { data }) => {
+                        const countries = cache.readQuery({
+                          query: GET_COUNTRIES
+                        }).getCountries;
+                        cache.writeQuery({
+                          query: GET_COUNTRIES,
+                          data: {
+                            getCountries: countries
+                              .map(
+                                country =>
+                                  country._id !== data.deleteCountry._id &&
+                                  country
+                              )
+                              .filter(country => country !== false)
+                          }
+                        });
+                      }}
+                    >
+                      {(deleteCountry, { loading, error }) => (
+                        <div>
+                          <form className="HandleArticle__AddCountry">
+                            <IconButton
+                              className="HandleArticle__Section__Icon"
+                              aria-label="Delete"
+                              onClick={() =>
+                                this.handleAction(
+                                  deleteCountry,
+                                  removeCountryDialog
                                 )
-                                .filter(chapter => chapter !== false)
-                            }
-                          });
-                        }}
-                      >
-                        {(deleteChapter, { loading, error }) => (
-                          <div>
-                            <form className="HandleArticle__AddChapter">
-                              <IconButton
-                                className="HandleArticle__Section__Icon"
-                                aria-label="Delete"
-                                onClick={() =>
-                                  this.handleAction(
-                                    deleteChapter,
-                                    removeChapterDialog
-                                  )
-                                }
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </form>
-                            {error && <p>Error :( Please try again</p>}
-                          </div>
-                        )}
-                      </Mutation>
-                      <ExpansionPanel
-                        expanded={expanded === number}
-                        onChange={this.handleChange(number)}
-                      >
-                        <ExpansionPanelSummary
-                          className="HandleArticle__Section__Chapter__Header"
-                          expandIcon={<ExpandMoreIcon />}
-                        >
-                          <Typography
-                            component="h1"
-                            className="HandleArticle__Section__Chapter__Header__Title"
-                          >
-                            Chapitre {number}
-                          </Typography>
-                          {description && (
-                            <Typography
-                              className="HandleArticle__Section__Chapter__Header__Description"
-                              component="p"
+                              }
                             >
-                              {description}
-                            </Typography>
-                          )}
-                          <Button
-                            className="HandleArticle__Section__Chapter__Header__AddDescription"
-                            onClick={event =>
-                              this.handleClickOpenForm(event, _id)
-                            }
+                              <DeleteIcon />
+                            </IconButton>
+                          </form>
+                          {error && <p>Error :( Please try again</p>}
+                        </div>
+                      )}
+                    </Mutation>
+                    <ExpansionPanel
+                      expanded={expanded === country}
+                      onChange={this.handleChange(country)}
+                    >
+                      <ExpansionPanelSummary
+                        className="HandleArticle__Section__Country__Header"
+                        expandIcon={<ExpandMoreIcon />}
+                      >
+                        <Typography
+                          component="h1"
+                          className="HandleArticle__Section__Country__Header__Title"
+                        >
+                          {country}
+                        </Typography>
+                        {description && (
+                          <Typography
+                            className="HandleArticle__Section__Country__Header__Description"
+                            component="p"
                           >
-                            {description
-                              ? "Modify description"
-                              : "Add description"}
-                          </Button>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className="HandleArticle__Section__Chapter__Content">
-                          <RemoveArticle chapter={number} />
-                        </ExpansionPanelDetails>
-                      </ExpansionPanel>
-                    </div>
-                  );
-                })}
+                            {description}
+                          </Typography>
+                        )}
+                        <Button
+                          className="HandleArticle__Section__Country__Header__AddDescription"
+                          onClick={event =>
+                            this.handleClickOpenForm(event, _id)
+                          }
+                        >
+                          {description
+                            ? "Modify description"
+                            : "Add description"}
+                        </Button>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails className="HandleArticle__Section__Country__Content">
+                        <RemoveArticle country={country} />
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                  </div>
+                );
+              })}
               <Mutation
-                mutation={ADD_CHAPTER}
-                variables={{ number: data.getChapters.length + 1 }}
+                mutation={ADD_COUNTRY}
+                variables={{ country: country }}
                 update={(cache, { data }) => {
-                  const chapters = cache.readQuery({
-                    query: GET_CHAPTERS
-                  }).getChapters;
+                  const countries = cache.readQuery({
+                    query: GET_COUNTRIES
+                  }).getCountries;
                   cache.writeQuery({
-                    query: GET_CHAPTERS,
+                    query: GET_COUNTRIES,
                     data: {
-                      getChapters: chapters.concat([data.addChapter])
+                      getCountries: countries.concat([data.addCountry])
                     }
                   });
                 }}
               >
-                {(addChapter, { loading, error }) => (
+                {(addCountry, { loading, error }) => (
                   <div>
-                    <form className="HandleArticle__AddChapter">
+                    <form className="HandleArticle__AddCountry">
+                      <TextField
+                        required
+                        id="country"
+                        name="country"
+                        value={country}
+                        variant="outlined"
+                        label="Country"
+                        className="HandleArticle__AddCountry__Input"
+                        onChange={event => this.handleFormChange(event)}
+                        margin="normal"
+                      />
                       <Button
-                        className="HandleArticle__AddChapter__Button"
+                        className="HandleArticle__AddCountry__Button"
                         variant="outlined"
                         onClick={() =>
-                          this.handleAction(addChapter, addChapterDialog)
+                          this.handleAction(addCountry, addCountryDialog)
                         }
                       >
-                        {loading ? "Loading..." : "Add a chapter"}
+                        {loading ? "Loading..." : "Add a country"}
                       </Button>
                     </form>
                     {error && <p>Error :( Please try again</p>}

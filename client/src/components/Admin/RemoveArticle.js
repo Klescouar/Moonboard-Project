@@ -9,7 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ArticleCard from "./ArticleCard";
 import DialogPopin from "../Dialog/Dialog";
 
-import { DELETE_ARTICLE, GET_ARTICLES_BY_CHAPTER } from "../../queries";
+import { DELETE_ARTICLE, GET_ARTICLES_BY_COUNTRY } from "../../queries";
 
 const removeArticleDialog = {
   title: "Remove Article",
@@ -45,10 +45,10 @@ class RemoveArticle extends Component {
   };
 
   render() {
-    const { chapter } = this.props;
+    const { country } = this.props;
     const { openDialog, action, dialog } = this.state;
     return (
-      <Query query={GET_ARTICLES_BY_CHAPTER} variables={{ chapter }}>
+      <Query query={GET_ARTICLES_BY_COUNTRY} variables={{ country }}>
         {({ data, loading, error }) => {
           if (loading)
             return <CircularProgress className="Spinner" size={50} />;
@@ -63,7 +63,7 @@ class RemoveArticle extends Component {
                 action={action}
               />
               <div className="RemoveArticle__Articles">
-                {data.getArticlesByChapter.map(article => (
+                {data.getArticlesByCountry.map(article => (
                   <div
                     className="RemoveArticle__Articles__Article"
                     key={article._id}
@@ -72,15 +72,15 @@ class RemoveArticle extends Component {
                       mutation={DELETE_ARTICLE}
                       variables={{ _id: article._id }}
                       update={(cache, { data }) => {
-                        const articlesByChapter = cache.readQuery({
-                          query: GET_ARTICLES_BY_CHAPTER,
-                          variables: { chapter }
-                        }).getArticlesByChapter;
+                        const articlesByCountry = cache.readQuery({
+                          query: GET_ARTICLES_BY_COUNTRY,
+                          variables: { country }
+                        }).getArticlesByCountry;
                         cache.writeQuery({
-                          query: GET_ARTICLES_BY_CHAPTER,
-                          variables: { chapter },
+                          query: GET_ARTICLES_BY_COUNTRY,
+                          variables: { country },
                           data: {
-                            getArticlesByChapter: articlesByChapter
+                            getArticlesByCountry: articlesByCountry
                               .map(
                                 article =>
                                   article._id !== data.deleteArticle._id &&
@@ -106,17 +106,17 @@ class RemoveArticle extends Component {
                   </div>
                 ))}
                 <NavLink
-                  className="HandleArticle__Chapter__AddArticle"
-                  to={`/admin/backoffice/addArticle/chapter/${chapter}`}
+                  className="HandleArticle__Country__AddArticle"
+                  to={`/admin/backoffice/addArticle/country/${country}`}
                 >
                   <Typography
-                    className="HandleArticle__Chapter__AddArticle__Title"
+                    className="HandleArticle__Country__AddArticle__Title"
                     component="h1"
                   >
                     ADD AN ARTICLE
                   </Typography>
                   <Button
-                    className="HandleArticle__Chapter__AddArticle__Icon"
+                    className="HandleArticle__Country__AddArticle__Icon"
                     variant="contained"
                     color="primary"
                     aria-label="Add"

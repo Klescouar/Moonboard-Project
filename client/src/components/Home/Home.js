@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import ScrollableAnchor from "react-scrollable-anchor";
 import { Query } from "react-apollo";
 import Article from "../Article/Article";
@@ -11,59 +12,27 @@ class Home extends Component {
 
   componentDidMount() {
     document.addEventListener("scroll", () => {
-      const isTop = window.scrollY < window.innerHeight;
+      const isTop = window.scrollY < window.innerHeight + 70;
       if (isTop !== this.state.isTop) {
         this.setState({ isTop });
       }
     });
   }
 
-  romanize = num => {
-    if (isNaN(num)) return NaN;
-    var digits = String(+num).split(""),
-      key = [
-        "",
-        "C",
-        "CC",
-        "CCC",
-        "CD",
-        "D",
-        "DC",
-        "DCC",
-        "DCCC",
-        "CM",
-        "",
-        "X",
-        "XX",
-        "XXX",
-        "XL",
-        "L",
-        "LX",
-        "LXX",
-        "LXXX",
-        "XC",
-        "",
-        "I",
-        "II",
-        "III",
-        "IV",
-        "V",
-        "VI",
-        "VII",
-        "VIII",
-        "IX"
-      ],
-      roman = "",
-      i = 3;
-    while (i--) roman = (key[+digits.pop() + i * 10] || "") + roman;
-    return Array(+digits.join("") + 1).join("M") + roman;
-  };
-
   render() {
+    const { isTop } = this.state;
     return (
       <div className="Home">
-        <div className="Home__Presentation">
-          <h1 className="Home__Presentation__Title">MOONBOARD</h1>
+        <div id="wrapper">
+          <h1 className="Home__Title">MOONBOARD</h1>
+          <div id="featured">
+            <video poster="assets/poster.jpg" autoplay="true" muted="true" loop>
+              <source
+                src={require(`../../assets/videos/travel.mp4`)}
+                type="video/mp4"
+              />
+            </video>
+          </div>
         </div>
         <Query query={GET_ARTICLES}>
           {({ data, loading, error }) => {
@@ -71,54 +40,62 @@ class Home extends Component {
             if (error) return <div>Error</div>;
             return (
               <ScrollableAnchor id="Home">
-                <div className="Home__Body">
-                  <div className="Home__Body__ChapterList">
+                <div
+                  className={classNames({
+                    Home__Body: true,
+                    "Home__Body--fixed": !isTop
+                  })}
+                >
+                  <div
+                    className={classNames({
+                      Home__Body__CountryList: true,
+                      "Home__Body__CountryList--fixed": !isTop
+                    })}
+                  >
                     <img
-                      className="Home__Body__ChapterList__Icon"
+                      className="Home__Body__CountryList__Icon"
                       src={require(`../../assets/icons/back.png`)}
                       alt="Arrow"
                     />
-                    {data.getArticles.map((articleByChapter, index) => (
+                    {data.getArticles.map((articleByCountry, index) => (
                       <a
-                        className="Home__Body__ChapterList__Chapter"
-                        href={`#chapter${articleByChapter.chapter.number}`}
-                        key={articleByChapter.chapter._id}
+                        className="Home__Body__CountryList__Country"
+                        href={`#${articleByCountry.country.country}`}
+                        key={articleByCountry.country._id}
                       >
-                        CHAPITRE{" "}
-                        {this.romanize(articleByChapter.chapter.number)}
+                        {articleByCountry.country.country.toUpperCase()}
                         {index !== data.getArticles.length - 1 &&
                           data.getArticles.length - 1 !== 1 && (
-                            <p className="Home__Body__ChapterList__Chapter__Separator">
+                            <p className="Home__Body__CountryList__Country__Separator">
                               |
                             </p>
                           )}
                       </a>
                     ))}
                     <img
-                      className="Home__Body__ChapterList__Icon"
+                      className="Home__Body__CountryList__Icon"
                       src={require(`../../assets/icons/arrow.png`)}
                       alt="Arrow"
                     />
                   </div>
-                  {data.getArticles.map(articleByChapter => (
+                  {data.getArticles.map(articleByCountry => (
                     <ScrollableAnchor
-                      id={`chapter${articleByChapter.chapter.number}`}
-                      key={articleByChapter.chapter._id}
+                      id={`${articleByCountry.country.country}`}
+                      key={articleByCountry.country._id}
                     >
-                      <div className="Home__Body__Chapter">
-                        <div className="Home__Body__Chapter__Header">
+                      <div className="Home__Body__Country">
+                        <div className="Home__Body__Country__Header">
                           <h1>
-                            CHAPITRE{" "}
-                            {this.romanize(articleByChapter.chapter.number)}
+                            {articleByCountry.country.country.toUpperCase()}
                           </h1>
-                          <p>{articleByChapter.chapter.description}</p>
+                          <p>{articleByCountry.country.description}</p>
                         </div>
-                        {!articleByChapter.articles.length && (
+                        {!articleByCountry.articles.length && (
                           <p>
                             <strong>You have not added any articles yet</strong>
                           </p>
                         )}
-                        {articleByChapter.articles.map(article => (
+                        {articleByCountry.articles.map(article => (
                           <Article key={article._id} article={article} />
                         ))}
                       </div>
@@ -129,7 +106,7 @@ class Home extends Component {
             );
           }}
         </Query>
-        {!this.state.isTop && (
+        {!isTop && (
           <a className="Home__FloatingButton" href="#Home">
             <img
               className="Home__FloatingButton__Icon"

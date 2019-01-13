@@ -4,7 +4,7 @@ exports.typeDefs = `
     description: String
     image: String!
     link: String!
-    chapter: Int!
+    country: String!
     date: String!
     time: String!
     place: String!
@@ -18,9 +18,9 @@ exports.typeDefs = `
     encoding: String!
   }
 
-  type Chapter {
+  type Country {
     _id: ID!
-    number: Int!
+    country: String!
     description: String
   }
 
@@ -32,15 +32,15 @@ exports.typeDefs = `
     joinDate: String
   }
 
-  type ChapterAndArticleUnion {
-    chapter: Chapter,
+  type CountryAndArticleUnion {
+    country: Country,
     articles: [Article]
   }
 
   type Query {
-    getArticles: [ChapterAndArticleUnion]
-    getArticlesByChapter(chapter: Int!): [Article]
-    getChapters: [Chapter]
+    getArticles: [CountryAndArticleUnion]
+    getArticlesByCountry(country: String!): [Article]
+    getCountries: [Country]
     getArticle(_id: ID!): Article
     getCurrentUser: User
   }
@@ -51,10 +51,10 @@ exports.typeDefs = `
 
   type Mutation {
     singleUpload(file: Upload!): File!
-    addChapterDescription(_id: ID, description: String!): Chapter
-    addArticle(description: String!, image: String!, link: String!, chapter: Int!, time: String!, date: String!, place: String!): Article
-    addChapter(number: Int!): Chapter
-    deleteChapter(_id: ID, number: Int!): Chapter
+    addCountryDescription(_id: ID, description: String!): Country
+    addArticle(description: String!, image: String!, link: String!, country: String!, time: String!, date: String!, place: String!): Article
+    addCountry(country: String!): Country
+    deleteCountry(_id: ID, country: String!): Country
     deleteArticle(_id: ID): Article
     signinUser(username: String!, password: String!): Token
     signupUser(username: String!, email: String!, password: String!): Token

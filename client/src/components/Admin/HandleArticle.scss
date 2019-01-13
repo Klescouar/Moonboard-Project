@@ -5,7 +5,7 @@
   &__Section {
     position: relative;
     margin-left: 1rem;
-    &__Chapter {
+    &__Country {
       &__Header {
         position: relative;
         z-index: 1;
@@ -18,6 +18,8 @@
         }
 
         &__Title {
+          font-weight: bold !important;
+          margin-right: 1rem !important;
           @media screen and (max-width: 600px) {
             text-align: center;
             font-weight: bold !important;
@@ -69,7 +71,7 @@
       display: flex;
     }
   }
-  &__Chapter {
+  &__Country {
     display: flex;
     flex-direction: column;
     &__Content {
@@ -105,10 +107,16 @@
       }
     }
   }
-  &__AddChapter {
+  &__AddCountry {
     display: flex;
     justify-content: center;
     &__Button {
+      height: 56px;
+      margin-top: 1.5rem !important;
+      margin-left: 1rem !important;
+    }
+
+    &__Input {
       margin-top: 1.5rem !important;
     }
   }

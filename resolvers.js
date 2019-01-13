@@ -41,29 +41,27 @@ const processUpload = async upload => {
 exports.resolvers = {
   Upload: GraphQLUpload,
   Query: {
-    getArticles: async (root, args, { Article, Chapter }) => {
-      const allChapters = await Chapter.find().sort({ createdDate: "desc" });
+    getArticles: async (root, args, { Article, Country }) => {
+      const allCountries = await Country.find().sort({ createdDate: "desc" });
       const allArticles = await Article.find().sort({ createdDate: "desc" });
-      return allChapters
-        .map(chapter => {
-          const chapterUpdated = {};
-          chapterUpdated.chapter = chapter;
-          chapterUpdated.articles = allArticles.filter(
-            article => article.chapter === chapter.number
-          );
-          return chapterUpdated;
-        })
-        .sort((a, b) => a.chapter.number - b.chapter.number);
+      return allCountries.map(country => {
+        const countryUpdated = {};
+        countryUpdated.country = country;
+        countryUpdated.articles = allArticles.filter(
+          article => article.country === country.country
+        );
+        return countryUpdated;
+      });
     },
-    getArticlesByChapter: async (root, { chapter }, { Article }) => {
-      const articlesByChapter = await Article.find({ chapter: chapter }).sort({
+    getArticlesByCountry: async (root, { country }, { Article }) => {
+      const articlesByCountry = await Article.find({ country: country }).sort({
         createdDate: "desc"
       });
-      return articlesByChapter;
+      return articlesByCountry;
     },
-    getChapters: async (root, args, { Chapter }) => {
-      const allChapters = await Chapter.find().sort({ createdDate: "desc" });
-      return allChapters;
+    getCountries: async (root, args, { Country }) => {
+      const allCountries = await Country.find().sort({ createdDate: "desc" });
+      return allCountries;
     },
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if (!currentUser) {
@@ -79,35 +77,35 @@ exports.resolvers = {
     singleUpload: (obj, { file }) => processUpload(file),
     addArticle: async (
       root,
-      { description, image, link, place, chapter, time, date },
+      { description, image, link, place, country, time, date },
       { Article }
     ) => {
       const newArticle = await new Article({
         description,
         image,
         link,
-        chapter,
+        country,
         date,
         place,
         time
       }).save();
     },
-    addChapter: async (root, { number }, { Chapter }) => {
-      const newChapter = await new Chapter({
-        number
+    addCountry: async (root, { country }, { Country }) => {
+      const newCountry = await new Country({
+        country
       }).save();
-      return newChapter;
+      return newCountry;
     },
-    addChapterDescription: async (root, { _id, description }, { Chapter }) => {
-      const chapterUpdate = await Chapter.findById({ _id });
-      chapterUpdate.description = description;
-      const chapterUpdated = await chapterUpdate.save();
-      return chapterUpdated;
+    addCountryDescription: async (root, { _id, description }, { Country }) => {
+      const countryUpdate = await Country.findById({ _id });
+      countryUpdate.description = description;
+      const countryUpdated = await countryUpdate.save();
+      return countryUpdated;
     },
-    deleteChapter: async (root, { _id, number }, { Chapter, Article }) => {
-      const chapter = await Chapter.findOneAndRemove({ _id });
-      const article = await Article.remove({ chapter: number });
-      return chapter;
+    deleteCountry: async (root, { _id, country }, { Country, Article }) => {
+      const countryRemoved = await Country.findOneAndRemove({ _id });
+      const article = await Article.remove({ country: country });
+      return countryRemoved;
     },
     deleteArticle: async (root, { _id }, { Article }) => {
       const article = await Article.findOneAndRemove({ _id });

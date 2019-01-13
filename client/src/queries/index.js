@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { articleFragments, chapterFragments } from "./fragments";
+import { articleFragments, countryFragments } from "./fragments";
 
 export const UploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -12,7 +12,7 @@ export const ADD_ARTICLE = gql`
     $description: String!
     $image: String!
     $link: String!
-    $chapter: Int!
+    $country: String!
     $time: String!
     $date: String!
     $place: String!
@@ -21,7 +21,7 @@ export const ADD_ARTICLE = gql`
       description: $description
       image: $image
       link: $link
-      chapter: $chapter
+      country: $country
       time: $time
       date: $date
       place: $place
@@ -32,30 +32,30 @@ export const ADD_ARTICLE = gql`
   ${articleFragments.article}
 `;
 
-export const ADD_CHAPTER = gql`
-  mutation($number: Int!) {
-    addChapter(number: $number) {
-      ...CompleteChapter
+export const ADD_COUNTRY = gql`
+  mutation($country: String!) {
+    addCountry(country: $country) {
+      ...CompleteCountry
     }
   }
-  ${chapterFragments.chapter}
+  ${countryFragments.country}
 `;
 
-export const ADD_CHAPTER_DESCRIPTION = gql`
+export const ADD_COUNTRY_DESCRIPTION = gql`
   mutation($_id: ID, $description: String!) {
-    addChapterDescription(_id: $_id, description: $description) {
-      ...CompleteChapter
+    addCountryDescription(_id: $_id, description: $description) {
+      ...CompleteCountry
     }
   }
-  ${chapterFragments.chapter}
+  ${countryFragments.country}
 `;
 
 export const GET_ARTICLES = gql`
   query {
     getArticles {
-      chapter {
+      country {
         _id
-        number
+        country
         description
       }
       articles {
@@ -63,7 +63,7 @@ export const GET_ARTICLES = gql`
         description
         image
         link
-        chapter
+        country
         date
         place
         time
@@ -72,14 +72,14 @@ export const GET_ARTICLES = gql`
   }
 `;
 
-export const GET_ARTICLES_BY_CHAPTER = gql`
-  query($chapter: Int!) {
-    getArticlesByChapter(chapter: $chapter) {
+export const GET_ARTICLES_BY_COUNTRY = gql`
+  query($country: String!) {
+    getArticlesByCountry(country: $country) {
       _id
       description
       image
       link
-      chapter
+      country
       date
       place
       time
@@ -87,11 +87,11 @@ export const GET_ARTICLES_BY_CHAPTER = gql`
   }
 `;
 
-export const GET_CHAPTERS = gql`
+export const GET_COUNTRIES = gql`
   query {
-    getChapters {
+    getCountries {
       _id
-      number
+      country
       description
     }
   }
@@ -105,11 +105,11 @@ export const DELETE_ARTICLE = gql`
   }
 `;
 
-export const DELETE_CHAPTER = gql`
-  mutation($_id: ID!, $number: Int!) {
-    deleteChapter(_id: $_id, number: $number) {
+export const DELETE_COUNTRY = gql`
+  mutation($_id: ID!, $country: String!) {
+    deleteCountry(_id: $_id, country: $country) {
       _id
-      number
+      country
     }
   }
 `;

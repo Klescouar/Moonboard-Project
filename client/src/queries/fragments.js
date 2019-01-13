@@ -9,16 +9,16 @@ export const articleFragments = {
       date
       place
       time
-      chapter
+      country
     }
   `
 };
 
-export const chapterFragments = {
-  chapter: gql`
-    fragment CompleteChapter on Chapter {
+export const countryFragments = {
+  country: gql`
+    fragment CompleteCountry on Country {
       _id
-      number
+      country
       description
     }
   `

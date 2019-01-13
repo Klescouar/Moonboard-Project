@@ -56,43 +56,45 @@ class BackgroundSoundPlayer extends Component {
             </p>
           </figcaption>
         </figure>
-        <div className="Player__Button">
-          <PlayButton
-            className={classNames({
-              Player__Button__Play: true,
-              paused: this.props.playing
-            })}
-            {...this.props}
-          />
-          <div className="Player__Button__Gauge">
-            <VolumeControl
-              className="Player__Button__Gauge__Volume"
+        <div className="Player__Bottom">
+          <div className="Player__Bottom__Button">
+            <PlayButton
+              className={classNames({
+                Player__Bottom__Button__Play: true,
+                paused: this.props.playing
+              })}
               {...this.props}
             />
-            <Progress
-              className="Player__Button__Gauge__Progress"
-              value={(currentTime / duration) * 100 || 0}
-              {...this.props}
-            />
-          </div>
-        </div>
-        <span className="Player__Description__Date">
-          {article.date} - {article.time} :
-        </span>{" "}
-        {this.state.shouldTruncate ? (
-          <TruncateMarkup lines={2} ellipsis={readMoreEllipsis}>
-            <div className="Player__Description__Text">
-              {article.description}
+            <div className="Player__Bottom__Button__Gauge">
+              <VolumeControl
+                className="Player__Bottom__Button__Gauge__Volume"
+                {...this.props}
+              />
+              <Progress
+                className="Player__Bottom__Button__Gauge__Progress"
+                value={(currentTime / duration) * 100 || 0}
+                {...this.props}
+              />
             </div>
-          </TruncateMarkup>
-        ) : (
-          <div className="Player__Description__Text">
-            {article.description}
-            <span className="ReadMore" onClick={this.toggleTruncate}>
-              {"Show less"}
-            </span>
           </div>
-        )}
+          <span className="Player__Bottom__Description__Date">
+            {article.date} - {article.time} :
+          </span>{" "}
+          {this.state.shouldTruncate ? (
+            <TruncateMarkup lines={2} ellipsis={readMoreEllipsis}>
+              <div className="Player__Bottom__Description__Text">
+                {article.description}
+              </div>
+            </TruncateMarkup>
+          ) : (
+            <div className="Player__Bottom__Description__Text">
+              {article.description}
+              <span className="ReadMore" onClick={this.toggleTruncate}>
+                {"Show less"}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

@@ -21,7 +21,7 @@ const initialState = {
   date: "",
   link: "",
   place: "",
-  chapter: null,
+  country: null,
   openErrorSnackBar: false,
   openSuccessSnackBar: false
 };
@@ -33,8 +33,6 @@ class AddArticle extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.name);
-    console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -83,7 +81,7 @@ class AddArticle extends Component {
       description,
       image,
       link,
-      chapter,
+      country,
       time,
       place,
       date,
@@ -101,7 +99,7 @@ class AddArticle extends Component {
           time,
           date,
           place,
-          chapter: Number(chapter)
+          country
         }}
       >
         {(addArticle, { data, loading, error }) => {

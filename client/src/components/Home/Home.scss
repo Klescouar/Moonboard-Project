@@ -1,18 +1,75 @@
 .Home {
   position: relative;
   font-family: "Ubuntu";
+  overflow: hidden;
 
-  &__Presentation {
+  &__Title {
+    position: absolute;
+    z-index: 9999;
+    font-size: 5rem;
+    font-weight: normal;
+    color: white;
+  }
+
+  #wrapper {
+    position: relative;
     height: 100vh;
-    background-color: black;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  #featured {
+    position: absolute;
+    width: calc(100vh * (1000 / 562)); /*  video width / height  */
+    height: calc(100vw * (562 / 1000)); /*  video height / width  */
+    min-width: 100%;
+    min-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #featured:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &__Presentation {
+    position: relative;
+    #vid {
+      width: 100vw; /* Could also use width: 100%; */
+      height: 100vh;
+      object-fit: cover;
+      position: fixed; /* Change position to absolute if you don't want it to take up the whole page */
+      left: 0px;
+      top: 0px;
+      z-index: -1;
+    }
+
     &__Title {
-      color: white;
-      text-align: center;
-      text-decoration: underline;
-      font-weight: normal;
+      background: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
@@ -20,18 +77,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5rem 1rem 0;
+    padding: 80px 0;
 
-    &__ChapterList {
+    @media screen and (min-width: 600px) {
+      &--fixed {
+        padding: 210px 0;
+      }
+    }
+
+    &__CountryList {
       display: flex;
       justify-content: center;
-      margin-bottom: 3rem;
+      margin-bottom: 50px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      transition: 0.1s ease;
+      width: 100%;
 
       @media screen and (max-width: 600px) {
         flex-wrap: wrap;
       }
 
-      &__Chapter {
+      @media screen and (min-width: 600px) {
+        &--fixed {
+          position: fixed;
+          top: 0;
+          z-index: 9999;
+          background-color: white;
+          height: 80px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          box-shadow: 0 6px 10px rgba(57, 63, 72, 0.3);
+          transition: 0.1s ease;
+        }
+      }
+
+      &__Country {
         margin-right: 1rem;
       }
 
@@ -45,7 +128,7 @@
         }
       }
 
-      &__Chapter {
+      &__Country {
         display: flex;
         text-decoration: none;
         font-weight: bold;
@@ -61,12 +144,13 @@
         }
       }
     }
-    &__Chapter {
+    &__Country {
       width: 100%;
 
       &__Header {
         display: flex;
         align-items: center;
+        padding-left: 1rem;
 
         @media screen and (max-width: 600px) {
           flex-direction: column;

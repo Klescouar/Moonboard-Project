@@ -18,8 +18,8 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  chapter: {
-    type: Number,
+  country: {
+    type: String,
     required: true
   },
   date: {

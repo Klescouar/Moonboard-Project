@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
 const Article = require("./models/Article");
 const User = require("./models/User");
-const Chapter = require("./models/Chapter");
+const Country = require("./models/Country");
 const { apolloUploadExpress } = require("apollo-upload-server");
 
 // Bring in GraphQL-Express middleware
@@ -58,7 +58,7 @@ const server = new ApolloServer({
     currentUser: currentUser,
     Article: Article,
     User: User,
-    Chapter: Chapter
+    Country: Country
   })
 });
 server.applyMiddleware({ app });
