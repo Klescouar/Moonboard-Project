@@ -8,6 +8,7 @@ exports.typeDefs = `
     date: String!
     time: String!
     place: String!
+    creationDate: String!
   }
 
   type File {
@@ -22,6 +23,7 @@ exports.typeDefs = `
     _id: ID!
     country: String!
     description: String
+    creationDate: String!
   }
 
   type User {
@@ -52,8 +54,8 @@ exports.typeDefs = `
   type Mutation {
     singleUpload(file: Upload!): File!
     addCountryDescription(_id: ID, description: String!): Country
-    addArticle(description: String!, image: String!, link: String!, country: String!, time: String!, date: String!, place: String!): Article
-    addCountry(country: String!): Country
+    addArticle(description: String!, image: String!, link: String!, country: String!, time: String!, date: String!, place: String!, creationDate: String!): Article
+    addCountry(country: String!, creationDate: String!): Country
     deleteCountry(_id: ID, country: String!): Country
     deleteArticle(_id: ID): Article
     signinUser(username: String!, password: String!): Token

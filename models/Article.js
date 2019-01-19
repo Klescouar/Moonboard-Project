@@ -29,6 +29,10 @@ const ArticleSchema = new Schema({
   time: {
     type: String,
     required: true
+  },
+  creationDate: {
+    type: String,
+    required: true
   }
 });
 

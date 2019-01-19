@@ -8,6 +8,10 @@ const CountrySchema = new Schema({
   },
   description: {
     type: String
+  },
+  creationDate: {
+    type: String,
+    required: true
   }
 });
 

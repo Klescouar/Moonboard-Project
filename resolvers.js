@@ -44,14 +44,22 @@ exports.resolvers = {
     getArticles: async (root, args, { Article, Country }) => {
       const allCountries = await Country.find().sort({ createdDate: "desc" });
       const allArticles = await Article.find().sort({ createdDate: "desc" });
-      return allCountries.map(country => {
-        const countryUpdated = {};
-        countryUpdated.country = country;
-        countryUpdated.articles = allArticles.filter(
-          article => article.country === country.country
-        );
-        return countryUpdated;
-      });
+      return allCountries
+        .map(country => {
+          const countryUpdated = {};
+          countryUpdated.country = country;
+          countryUpdated.articles = allArticles
+            .filter(article => article.country === country.country)
+            .sort((a, b) => {
+              return Number(a.creationDate) - Number(b.creationDate);
+            });
+          return countryUpdated;
+        })
+        .sort((a, b) => {
+          return (
+            Number(a.country.creationDate) - Number(b.country.creationDate)
+          );
+        });
     },
     getArticlesByCountry: async (root, { country }, { Article }) => {
       const articlesByCountry = await Article.find({ country: country }).sort({
@@ -77,7 +85,7 @@ exports.resolvers = {
     singleUpload: (obj, { file }) => processUpload(file),
     addArticle: async (
       root,
-      { description, image, link, place, country, time, date },
+      { description, image, link, place, country, time, date, creationDate },
       { Article }
     ) => {
       const newArticle = await new Article({
@@ -87,7 +95,8 @@ exports.resolvers = {
         country,
         date,
         place,
-        time
+        time,
+        creationDate
       }).save();
     },
     addCountry: async (root, { country }, { Country }) => {

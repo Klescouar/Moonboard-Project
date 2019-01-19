@@ -239,26 +239,28 @@ class HandleArticle extends Component {
                         >
                           {country}
                         </Typography>
-                        {description && (
-                          <Typography
-                            className="HandleArticle__Section__Country__Header__Description"
-                            component="p"
-                          >
-                            {description}
-                          </Typography>
-                        )}
-                        <Button
-                          className="HandleArticle__Section__Country__Header__AddDescription"
-                          onClick={event =>
-                            this.handleClickOpenForm(event, _id)
-                          }
-                        >
-                          {description
-                            ? "Modify description"
-                            : "Add description"}
-                        </Button>
                       </ExpansionPanelSummary>
                       <ExpansionPanelDetails className="HandleArticle__Section__Country__Content">
+                        <div className="HandleArticle__Section__Country__Content__Header">
+                          {description && (
+                            <Typography
+                              className="HandleArticle__Section__Country__Content__Header__Description"
+                              component="p"
+                            >
+                              {description}
+                            </Typography>
+                          )}
+                          <Button
+                            className="HandleArticle__Section__Country__Content__Header__Button"
+                            onClick={event =>
+                              this.handleClickOpenForm(event, _id)
+                            }
+                          >
+                            {description
+                              ? "Modify description"
+                              : "Add description"}
+                          </Button>
+                        </div>
                         <RemoveArticle country={country} />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>

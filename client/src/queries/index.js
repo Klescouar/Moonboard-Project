@@ -16,6 +16,7 @@ export const ADD_ARTICLE = gql`
     $time: String!
     $date: String!
     $place: String!
+    $creationDate: String!
   ) {
     addArticle(
       description: $description
@@ -25,6 +26,7 @@ export const ADD_ARTICLE = gql`
       time: $time
       date: $date
       place: $place
+      creationDate: $creationDate
     ) {
       ...CompleteArticle
     }
@@ -33,7 +35,7 @@ export const ADD_ARTICLE = gql`
 `;
 
 export const ADD_COUNTRY = gql`
-  mutation($country: String!) {
+  mutation($country: String!, $creationDate: String!) {
     addCountry(country: $country) {
       ...CompleteCountry
     }
@@ -57,6 +59,7 @@ export const GET_ARTICLES = gql`
         _id
         country
         description
+        creationDate
       }
       articles {
         _id
@@ -67,6 +70,7 @@ export const GET_ARTICLES = gql`
         date
         place
         time
+        creationDate
       }
     }
   }
@@ -82,6 +86,7 @@ export const GET_ARTICLES_BY_COUNTRY = gql`
       country
       date
       place
+      creationDate
       time
     }
   }
@@ -93,6 +98,7 @@ export const GET_COUNTRIES = gql`
       _id
       country
       description
+      creationDate
     }
   }
 `;

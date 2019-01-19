@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import ScrollableAnchor from "react-scrollable-anchor";
+import ScrollableAnchor, { configureAnchors } from "react-scrollable-anchor";
 import { Query } from "react-apollo";
 import Article from "../Article/Article";
 import { GET_ARTICLES } from "../../queries";
+
+configureAnchors({ offset: -80 });
 
 class Home extends Component {
   state = {
@@ -12,7 +14,7 @@ class Home extends Component {
 
   componentDidMount() {
     document.addEventListener("scroll", () => {
-      const isTop = window.scrollY < window.innerHeight + 70;
+      const isTop = window.scrollY < window.innerHeight + 30;
       if (isTop !== this.state.isTop) {
         this.setState({ isTop });
       }
@@ -26,7 +28,7 @@ class Home extends Component {
         <div id="wrapper">
           <h1 className="Home__Title">MOONBOARD</h1>
           <div id="featured">
-            <video poster="assets/poster.jpg" autoplay="true" muted="true" loop>
+            <video poster="assets/poster.jpg" autoPlay={true} muted={true} loop>
               <source
                 src={require(`../../assets/videos/travel.mp4`)}
                 type="video/mp4"
@@ -58,19 +60,23 @@ class Home extends Component {
                       alt="Arrow"
                     />
                     {data.getArticles.map((articleByCountry, index) => (
-                      <a
-                        className="Home__Body__CountryList__Country"
-                        href={`#${articleByCountry.country.country}`}
+                      <div
+                        className="Home__Body__CountryList__Nav"
                         key={articleByCountry.country._id}
                       >
-                        {articleByCountry.country.country.toUpperCase()}
+                        <a
+                          className="Home__Body__CountryList__Nav__Country"
+                          href={`#${articleByCountry.country.country}`}
+                        >
+                          {articleByCountry.country.country.toUpperCase()}
+                        </a>
                         {index !== data.getArticles.length - 1 &&
                           data.getArticles.length - 1 !== 1 && (
-                            <p className="Home__Body__CountryList__Country__Separator">
+                            <p className="Home__Body__CountryList__Nav__Separator">
                               |
                             </p>
                           )}
-                      </a>
+                      </div>
                     ))}
                     <img
                       className="Home__Body__CountryList__Icon"
@@ -88,7 +94,9 @@ class Home extends Component {
                           <h1>
                             {articleByCountry.country.country.toUpperCase()}
                           </h1>
-                          <p>{articleByCountry.country.description}</p>
+                          {articleByCountry.country.description && (
+                            <p>{articleByCountry.country.description}</p>
+                          )}
                         </div>
                         {!articleByCountry.articles.length && (
                           <p>

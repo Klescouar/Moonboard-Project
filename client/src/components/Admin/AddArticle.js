@@ -88,7 +88,7 @@ class AddArticle extends Component {
       openSuccessSnackBar,
       openErrorSnackBar
     } = this.state;
-    console.log(this.state);
+
     return (
       <Mutation
         mutation={ADD_ARTICLE}
@@ -99,7 +99,8 @@ class AddArticle extends Component {
           time,
           date,
           place,
-          country
+          country,
+          creationDate: Date.now().toString()
         }}
       >
         {(addArticle, { data, loading, error }) => {

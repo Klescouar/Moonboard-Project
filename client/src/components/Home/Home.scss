@@ -3,6 +3,12 @@
   font-family: "Ubuntu";
   overflow: hidden;
 
+  @media screen and (max-width: 600px) {
+    a {
+      font-size: 1.2rem !important;
+    }
+  }
+
   &__Title {
     position: absolute;
     z-index: 9999;
@@ -77,18 +83,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px 0;
+    padding: 40px 0;
 
-    @media screen and (min-width: 600px) {
-      &--fixed {
-        padding: 210px 0;
-      }
+    &--fixed {
+      padding: 140px 0;
     }
 
     &__CountryList {
       display: flex;
       justify-content: center;
-      margin-bottom: 50px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
       height: 80px;
       display: flex;
       align-items: center;
@@ -99,23 +104,17 @@
         flex-wrap: wrap;
       }
 
-      @media screen and (min-width: 600px) {
-        &--fixed {
-          position: fixed;
-          top: 0;
-          z-index: 9999;
-          background-color: white;
-          height: 80px;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          box-shadow: 0 6px 10px rgba(57, 63, 72, 0.3);
-          transition: 0.1s ease;
-        }
-      }
-
-      &__Country {
-        margin-right: 1rem;
+      &--fixed {
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        height: 80px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 6px 10px rgba(57, 63, 72, 0.3);
+        transition: 0.1s ease;
       }
 
       &__Icon {
@@ -128,15 +127,25 @@
         }
       }
 
-      &__Country {
+      &__Nav {
         display: flex;
-        text-decoration: none;
-        font-weight: bold;
-        color: black;
-        font-size: 1.4rem;
+        &__Country {
+          display: flex;
+          text-decoration: none;
+          font-weight: bold;
+          color: black;
+          font-size: 1.4rem;
+          padding: 0 1rem;
 
+          @media screen and (max-width: 600px) {
+            padding: 0 0.5rem;
+          }
+        }
         &__Separator {
-          margin: 0 1rem;
+          display: flex;
+          align-items: center;
+          margin: 0;
+          font-weight: bold;
 
           @media screen and (max-width: 600px) {
             display: none;
@@ -154,6 +163,10 @@
 
         @media screen and (max-width: 600px) {
           flex-direction: column;
+
+          h1 {
+            font-size: 1.6rem;
+          }
         }
 
         p {

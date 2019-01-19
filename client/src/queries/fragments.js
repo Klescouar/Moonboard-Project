@@ -10,6 +10,7 @@ export const articleFragments = {
       place
       time
       country
+      creationDate
     }
   `
 };
@@ -20,6 +21,7 @@ export const countryFragments = {
       _id
       country
       description
+      creationDate
     }
   `
 };
