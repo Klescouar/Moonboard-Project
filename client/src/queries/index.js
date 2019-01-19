@@ -36,7 +36,7 @@ export const ADD_ARTICLE = gql`
 
 export const ADD_COUNTRY = gql`
   mutation($country: String!, $creationDate: String!) {
-    addCountry(country: $country) {
+    addCountry(country: $country, creationDate: $creationDate) {
       ...CompleteCountry
     }
   }

@@ -269,7 +269,10 @@ class HandleArticle extends Component {
               })}
               <Mutation
                 mutation={ADD_COUNTRY}
-                variables={{ country: country }}
+                variables={{
+                  country: country,
+                  creationDate: Date.now().toString()
+                }}
                 update={(cache, { data }) => {
                   const countries = cache.readQuery({
                     query: GET_COUNTRIES

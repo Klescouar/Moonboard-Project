@@ -99,9 +99,10 @@ exports.resolvers = {
         creationDate
       }).save();
     },
-    addCountry: async (root, { country }, { Country }) => {
+    addCountry: async (root, { country, creationDate }, { Country }) => {
       const newCountry = await new Country({
-        country
+        country,
+        creationDate
       }).save();
       return newCountry;
     },
