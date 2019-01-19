@@ -26,7 +26,7 @@ import "./components/Auth/Sign.scss";
 import "./components/SnackBar/SnackBar.scss";
 import "./index.scss";
 
-const link = createUploadLink({ uri: "http://vps639278.ovh.net:4444/graphql" });
+const link = createUploadLink({ uri: "http://localhost:4444/graphql" });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
