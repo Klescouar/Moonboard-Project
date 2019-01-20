@@ -77,6 +77,7 @@ class BackgroundSoundPlayer extends Component {
               />
             </div>
           </div>
+          <p className="Player__Bottom__Description__Place">{article.place}</p>
           <span className="Player__Bottom__Description__Date">
             {article.date} - {article.time} :
           </span>{" "}
