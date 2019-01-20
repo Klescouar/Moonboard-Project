@@ -257,8 +257,8 @@ class HandleArticle extends Component {
                             }
                           >
                             {description
-                              ? "Modify description"
-                              : "Add description"}
+                              ? "Modify Country description"
+                              : "Add Country description"}
                           </Button>
                         </div>
                         <RemoveArticle country={country} />
