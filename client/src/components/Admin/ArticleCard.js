@@ -20,7 +20,9 @@ class ArticleCard extends Component {
       <Card className="RemoveArticle__Articles__Article__Card">
         <CardMedia
           className="RemoveArticle__Articles__Article__Card__Image"
-          image={require(`../../assets/images/${article.image}`)}
+          image={`./../media/${
+            article.image
+          }`}
           title="Contemplative Reptile"
         />
         <CardContent className="RemoveArticle__Articles__Article__Card__Content">

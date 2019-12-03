@@ -11,7 +11,7 @@ const createToken = (user, secret, expiresIn) => {
   return jwt.sign({ username, email }, secret, { expiresIn });
 };
 
-const uploadDir = "./client/src/assets/images";
+const uploadDir = "./media";
 // Ensure upload directory exists
 mkdirp.sync(uploadDir);
 

@@ -40,12 +40,16 @@ class BackgroundSoundPlayer extends Component {
         <figure className="snip1577">
           <img
             className="Player__Image"
-            src={require(`../../assets/images/${article.image}`)}
+            src={`./media/${
+              article.image
+            }`}
             alt="backgroundImage"
             onClick={() =>
               this.setState({
                 isOpen: true,
-                imgSrc: require(`../../assets/images/${article.image}`)
+                imgSrc: `./media/${
+                  article.image
+                }`
               })
             }
           />

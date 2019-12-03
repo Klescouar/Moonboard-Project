@@ -59,25 +59,28 @@ class Home extends Component {
                       src={require(`../../assets/icons/back.png`)}
                       alt="Arrow"
                     />
-                    {data.getArticles.map((articleByCountry, index) => (
-                      <div
-                        className="Home__Body__CountryList__Nav"
-                        key={articleByCountry.country._id}
-                      >
-                        <a
-                          className="Home__Body__CountryList__Nav__Country"
-                          href={`#${articleByCountry.country.country}`}
+                    {data.getArticles.map((articleByCountry, index) => {
+                      console.log(data.getArticles.length - 1 !== 0);
+                      return (
+                        <div
+                          className="Home__Body__CountryList__Nav"
+                          key={articleByCountry.country._id}
                         >
-                          {articleByCountry.country.country.toUpperCase()}
-                        </a>
-                        {index !== data.getArticles.length - 1 &&
-                          data.getArticles.length - 1 !== 1 && (
-                            <p className="Home__Body__CountryList__Nav__Separator">
-                              |
-                            </p>
-                          )}
-                      </div>
-                    ))}
+                          <a
+                            className="Home__Body__CountryList__Nav__Country"
+                            href={`#${articleByCountry.country.country}`}
+                          >
+                            {articleByCountry.country.country.toUpperCase()}
+                          </a>
+                          {index !== data.getArticles.length - 1 &&
+                            data.getArticles.length - 1 !== 0 && (
+                              <p className="Home__Body__CountryList__Nav__Separator">
+                                |
+                              </p>
+                            )}
+                        </div>
+                      );
+                    })}
                     <img
                       className="Home__Body__CountryList__Icon"
                       src={require(`../../assets/icons/arrow.png`)}
